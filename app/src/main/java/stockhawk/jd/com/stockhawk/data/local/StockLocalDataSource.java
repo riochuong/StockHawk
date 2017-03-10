@@ -2,16 +2,21 @@ package stockhawk.jd.com.stockhawk.data.local;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import stockhawk.jd.com.stockhawk.data.StockDataSource;
+import stockhawk.jd.com.stockhawk.displaystocks.model.StockModel;
 
 /**
  * Created by chuondao on 3/5/17.
  */
 
 public class StockLocalDataSource implements  StockDataSource{
-
 
     private ContentResolver mContentResolver;
 
@@ -33,11 +38,21 @@ public class StockLocalDataSource implements  StockDataSource{
 
 
     @Override
-    public void insertStocks(@NonNull ContentValues[] stocks, InsertStocksCallBacks callBacks) {
+    public void insertStocks(@NonNull List<StockModel> stocks, InsertStocksCallBacks callBacks) {
+
+        /* convert to content values array */
+        List<ContentValues> cvs = new ArrayList<>();
+        ContentValues [] cvas = new ContentValues [stocks.size()] ;
+        for (StockModel stock: stocks){
+            cvs.add(stock.toContentValue());
+        }
+        /*convert to array*/
+        cvs.toArray(cvas);
+
         int inserted = mContentResolver
                 .bulkInsert(
                         StockContract.Quote.URI,
-                        stocks);
+                        cvas);
 
         /* insert stocks and callback */
         if (inserted <= 0){
@@ -49,8 +64,32 @@ public class StockLocalDataSource implements  StockDataSource{
     }
 
     @Override
-    public void deleteStock(@NonNull String stockId, DeleteStockCallBacks callBacks) {
+    public void deleteStock(@NonNull StockModel stock, DeleteStockCallBacks callBacks) {
+        Uri uri = StockContract.Quote.makeUriForStock(stock.getSymbol());
+        int res = mContentResolver.delete(uri,null,null);
+        if (res <= 0){
+            callBacks.onStockDeletedError();
+        }
+        else{
+            callBacks.onStocksDeleted();
+        }
+    }
 
+    @Override
+    public void insertSingleStock(StockModel stock, InsertSingleStockCallBacks callbacks) {
+        Uri uri = StockContract.Quote.URI;
+        Uri res =  mContentResolver.insert(uri,stock.toContentValue());
+        /*check for error*/
+        if (res == null){
+            callbacks.onInsertSingleStockError();
+        }else{
+            callbacks.onInsertSingleStockCompleted();
+        }
+    }
+
+    @Override
+    public void fetchStocks(@NonNull Context ctx) {
+        // NO-op as fetchstocks will be call straight through network api
     }
 
 

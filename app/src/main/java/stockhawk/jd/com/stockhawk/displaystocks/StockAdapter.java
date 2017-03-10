@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import stockhawk.jd.com.stockhawk.R;
 import stockhawk.jd.com.stockhawk.data.PrefUtils;
-import stockhawk.jd.com.stockhawk.displaystocks.model.Stock;
+import stockhawk.jd.com.stockhawk.displaystocks.model.StockModel;
 
 class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
@@ -26,7 +26,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
     private final DecimalFormat dollarFormatWithPlus;
     private final DecimalFormat dollarFormat;
     private final DecimalFormat percentageFormat;
-    private List<Stock> stockList;
+    private List<StockModel> stockList;
     private final StockAdapterOnClickHandler clickHandler;
 
     StockAdapter(Context context, StockAdapterOnClickHandler clickHandler) {
@@ -42,7 +42,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
         percentageFormat.setPositivePrefix("+");
     }
 
-    void setStockList(List<Stock> stkList) {
+    void setStockList(List<StockModel> stkList) {
         this.stockList = stkList;
         notifyDataSetChanged();
     }

@@ -1,36 +1,31 @@
 package stockhawk.jd.com.stockhawk.displaystocks;
 
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import stockhawk.jd.com.stockhawk.R;
+import stockhawk.jd.com.stockhawk.displaystocks.model.StockModel;
+
 /**
  * This fragment will hold the layout for display stock
  *
  */
-public class DisplayMyStockFragment extends Fragment implements DisplayMyStockContract.View, LoaderManager.LoaderCallbacks<Cursor>,
+public class DisplayMyStockFragment extends Fragment implements DisplayMyStockContract.View,
         SwipeRefreshLayout.OnRefreshListener,
         StockAdapter.StockAdapterOnClickHandler {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private RecyclerView mRecyclerView;
     private DisplayMyStockContract.Presenter mPresenter;
-
+    private StockAdapter mAdapter;
 
     public DisplayMyStockFragment() {
         // Required empty public constructor
@@ -48,8 +43,6 @@ public class DisplayMyStockFragment extends Fragment implements DisplayMyStockCo
     public static DisplayMyStockFragment newInstance(String param1, String param2) {
         DisplayMyStockFragment fragment = new DisplayMyStockFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,10 +50,6 @@ public class DisplayMyStockFragment extends Fragment implements DisplayMyStockCo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -80,31 +69,21 @@ public class DisplayMyStockFragment extends Fragment implements DisplayMyStockCo
             mPresenter = presenter;
     }
 
-    /* LOADER CALL BACKS AND INITIALIZATION */
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 
     /* ON DATA REFRESHING */
     @Override
     public void onRefresh() {
-
+        mPresenter.fetchStocksData();
     }
 
     /* ON VIEW CLICK */
     @Override
     public void onClick(String symbol) {
 
+    }
+    @Override
+    public void updateStocksData(List<StockModel> stocks) {
+        mAdapter.setStockList(stocks);
     }
 }

@@ -25,12 +25,14 @@ import stockhawk.jd.com.stockhawk.data.PrefUtils;
 import stockhawk.jd.com.stockhawk.data.StockDataSource;
 import stockhawk.jd.com.stockhawk.data.local.StockContract;
 import stockhawk.jd.com.stockhawk.data.local.StockLocalDataSource;
+import stockhawk.jd.com.stockhawk.displaystocks.model.StockModel;
 import timber.log.Timber;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
 import yahoofinance.quotes.stock.StockQuote;
+
 
 public final class QuoteSyncJob {
 
@@ -70,7 +72,7 @@ public final class QuoteSyncJob {
 
             Timber.d(quotes.toString());
 
-            ArrayList<ContentValues> quoteCVs = new ArrayList<>();
+            ArrayList<StockModel> quoteStocks = new ArrayList<>();
 
             while (iterator.hasNext()) {
                 String symbol = iterator.next();
@@ -117,12 +119,12 @@ public final class QuoteSyncJob {
 
                 quoteCV.put(StockContract.Quote.COLUMN_HISTORY, historyBuilder.toString());
 
-                quoteCVs.add(quoteCV);
+                quoteStocks.add(StockModel.from(quoteCV));
             }
 
             /*insert stock to DB and broadcast */
             StockLocalDataSource.getInstance(context.getContentResolver()).insertStocks(
-                    quoteCVs.toArray(new ContentValues[quoteCVs.size()]), new StockDataSource.InsertStocksCallBacks() {
+                    quoteStocks, new StockDataSource.InsertStocksCallBacks() {
                         @Override
                         public void onStocksInserted() {
                             Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
