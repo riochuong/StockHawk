@@ -1,4 +1,4 @@
-package stockhawk.jd.com.stockhawk.data.remote;
+package stockhawk.jd.com.stockhawk.data.sync;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
@@ -21,6 +21,8 @@ public class QuoteJobService extends JobService {
     public boolean onStopJob(JobParameters jobParameters) {
         return false;
     }
+
+
 
 
 }

@@ -1,4 +1,4 @@
-package stockhawk.jd.com.stockhawk.displaystocks;
+package stockhawk.jd.com.stockhawk.stockportfolio.displaystocks;
 
 
 import android.content.Context;
@@ -11,14 +11,16 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import stockhawk.jd.com.stockhawk.R;
-import stockhawk.jd.com.stockhawk.data.PrefUtils;
-import stockhawk.jd.com.stockhawk.displaystocks.model.StockModel;
+import stockhawk.jd.com.stockhawk.util.PrefUtilsModel;
+import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
 
 class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
@@ -45,6 +47,9 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
     void setStockList(List<StockModel> stkList) {
         this.stockList = stkList;
         notifyDataSetChanged();
+        if (this.stockList != null){
+            Collections.sort(this.stockList);
+        }
     }
 
     String getSymbolAtPosition(int position) {
@@ -66,7 +71,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
     String getAbsoluteChange(int position) {
 
         if (stockList != null && position < stockList.size()){
-            return stockList.get(position).getPrice();
+            return stockList.get(position).getAbsoluteChange();
         }
         return null;
     }
@@ -74,7 +79,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
     String getPercentageChange(int position) {
 
         if (stockList != null && position < stockList.size()){
-            return stockList.get(position).getPrice();
+            return stockList.get(position).getPercentageChange();
         }
         return null;
     }
@@ -106,7 +111,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
         String change = dollarFormatWithPlus.format(rawAbsoluteChange);
         String percentage = percentageFormat.format(percentageChange / 100);
 
-        if (PrefUtils.getDisplayMode(context)
+        if (PrefUtilsModel.getInstance(context).getDisplayMode()
                 .equals(context.getString(R.string.pref_display_mode_absolute_key))) {
             holder.change.setText(change);
         } else {

@@ -1,23 +1,29 @@
 package stockhawk.jd.com.stockhawk.data;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import stockhawk.jd.com.stockhawk.data.remote.QuoteSyncJob;
-import stockhawk.jd.com.stockhawk.displaystocks.model.StockModel;
+import stockhawk.jd.com.stockhawk.data.remote.StockRemoteDataSource;
+import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
+import stockhawk.jd.com.stockhawk.util.PrefUtilsModel;
 
 /**
  * Created by chuondao on 3/7/17.
  */
 
-public class StockDataRepository implements  StockDataSource{
+public class StockDataRepository implements  StockDataSource {
 
     StockDataSource mStockLocalDataSource;
+    StockRemoteDataSource mRemoteDataSource;
+    PrefUtilsModel mPrefUtilsModel;
 
-    private StockDataRepository(StockDataSource mStockLocalDataSource) {
+    private StockDataRepository(StockDataSource mStockLocalDataSource,
+                                StockRemoteDataSource mStockRemoteDataSource,
+                                PrefUtilsModel mPrefUtils) {
         this.mStockLocalDataSource = mStockLocalDataSource;
+        this.mRemoteDataSource = mStockRemoteDataSource;
+        this.mPrefUtilsModel = mPrefUtils;
     }
 
 
@@ -27,14 +33,15 @@ public class StockDataRepository implements  StockDataSource{
 
     @Override
     public void insertStocks(@NonNull List<StockModel> stocks, InsertStocksCallBacks callBacks) {
-
+        /*only insert stock to local DB */
+        mStockLocalDataSource.insertStocks(stocks, callBacks);
     }
 
     @Override
-    public void deleteStock(@NonNull StockModel stock, final DeleteStockCallBacks callBacks) {
+    public void deleteStock(@NonNull String symbol, final DeleteStockCallBacks callBacks) {
 
-        /*delete stock from locat database */
-        mStockLocalDataSource.deleteStock(stock, new DeleteStockCallBacks() {
+        /*delete stock from local database */
+        mStockLocalDataSource.deleteStock(symbol, new DeleteStockCallBacks() {
             @Override
             public void onStocksDeleted() {
                 callBacks.onStocksDeleted();
@@ -46,31 +53,34 @@ public class StockDataRepository implements  StockDataSource{
             }
         });
 
+        /*resync data*/
+        mPrefUtilsModel.removeStock(symbol);
     }
 
     @Override
-    public void insertSingleStock(StockModel stock, final InsertSingleStockCallBacks callbacks) {
-        mStockLocalDataSource.insertSingleStock(stock, new InsertSingleStockCallBacks() {
-            @Override
-            public void onInsertSingleStockCompleted() {
-                callbacks.onInsertSingleStockCompleted();
-            }
+    public void insertSingleStock(String symbol) {
+        if (symbol != null && symbol.trim() != ""){
+            mPrefUtilsModel.addStock(symbol);
+            mRemoteDataSource.refreshStocks();
+        }
+    }
 
-            @Override
-            public void onInsertSingleStockError() {
-                callbacks.onInsertSingleStockError();
-            }
-        });
+
+    @Override
+    public void refreshStocks() {
+        mRemoteDataSource.refreshStocks();
     }
 
     @Override
-    public void fetchStocks(Context ctx) {
-        QuoteSyncJob.syncImmediately(ctx);
+    public void shedulePeriodicSync() {
+        mRemoteDataSource.shedulePeriodicSync();
     }
 
-    public static StockDataRepository getInstance(StockDataSource localDataSource){
+    public static StockDataRepository getInstance(StockDataSource localDataSource,
+                                                  StockRemoteDataSource mJobScheduleModel,
+                                                  PrefUtilsModel mPrefUtils){
         if (INSTANCE == null){
-            INSTANCE = new StockDataRepository(localDataSource);
+            INSTANCE = new StockDataRepository(localDataSource, mJobScheduleModel, mPrefUtils);
         }
 
         return INSTANCE;

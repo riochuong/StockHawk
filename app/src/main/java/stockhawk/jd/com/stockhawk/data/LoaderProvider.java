@@ -28,7 +28,7 @@ import android.support.v4.content.Loader;
  */
 
 import stockhawk.jd.com.stockhawk.data.local.StockContract;
-import stockhawk.jd.com.stockhawk.displaystocks.model.StockFilter;
+import stockhawk.jd.com.stockhawk.stockportfolio.model.StockFilter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -61,11 +61,4 @@ public class LoaderProvider {
         );
     }
 
-//    public Loader<Cursor> createTaskLoader(String taskId) {
-//        return new CursorLoader(mContext, TasksPersistenceContract.TaskEntry.buildTasksUriWith(taskId),
-//                                null,
-//                                null,
-//                                new String[]{String.valueOf(taskId)}, null
-//        );
-//    }
 }

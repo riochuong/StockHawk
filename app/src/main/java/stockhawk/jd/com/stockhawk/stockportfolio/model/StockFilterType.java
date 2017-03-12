@@ -1,4 +1,4 @@
-package stockhawk.jd.com.stockhawk.displaystocks.model;
+package stockhawk.jd.com.stockhawk.stockportfolio.model;
 
 /**
  * Created by chuondao on 3/7/17.

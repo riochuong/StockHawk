@@ -1,16 +1,9 @@
-package stockhawk.jd.com.stockhawk.data.remote;
+package stockhawk.jd.com.stockhawk.data.sync;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
+import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,11 +14,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import stockhawk.jd.com.stockhawk.data.PrefUtils;
+import stockhawk.jd.com.stockhawk.util.PrefUtilsModel;
 import stockhawk.jd.com.stockhawk.data.StockDataSource;
 import stockhawk.jd.com.stockhawk.data.local.StockContract;
 import stockhawk.jd.com.stockhawk.data.local.StockLocalDataSource;
-import stockhawk.jd.com.stockhawk.displaystocks.model.StockModel;
+import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
 import timber.log.Timber;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
@@ -34,19 +27,40 @@ import yahoofinance.histquotes.Interval;
 import yahoofinance.quotes.stock.StockQuote;
 
 
-public final class QuoteSyncJob {
+public class QuoteIntentService extends IntentService {
 
-    private static final int ONE_OFF_ID = 2;
     private static final String ACTION_DATA_UPDATED = "com.udacity.stockhawk.ACTION_DATA_UPDATED";
-    private static final int PERIOD = 300000;
-    private static final int INITIAL_BACKOFF = 10000;
-    private static final int PERIODIC_ID = 1;
     private static final int YEARS_OF_HISTORY = 2;
 
-    private QuoteSyncJob() {
+
+    public QuoteIntentService() {
+        super(QuoteIntentService.class.getSimpleName());
     }
 
-    static void getQuotes(final Context context) {
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        Timber.d("Intent handled");
+        // try to get the quotes here
+        List<StockModel> mListStockModel = getQuotes(this);
+        StockLocalDataSource localDataSource = StockLocalDataSource.getInstance(getContentResolver());
+        // update stocks and broadcast the good news
+        localDataSource.insertStocks(mListStockModel, new StockDataSource.InsertStocksCallBacks() {
+            @Override
+            public void onStocksInserted() {
+                Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+                QuoteIntentService.this.sendBroadcast(dataUpdatedIntent);
+            }
+
+            @Override
+            public void onInsertError() {
+                Timber.e("Failed to insert stocks to DB");
+            }
+        });
+
+    }
+
+
+    static List<StockModel> getQuotes(Context context) {
 
         Timber.d("Running sync job");
 
@@ -56,15 +70,15 @@ public final class QuoteSyncJob {
 
         try {
 
-            Set<String> stockPref = PrefUtils.getStocks(context);
             Set<String> stockCopy = new HashSet<>();
+            Set<String> stockPref = PrefUtilsModel.getInstance(context).getStocks();
             stockCopy.addAll(stockPref);
             String[] stockArray = stockPref.toArray(new String[stockPref.size()]);
 
             Timber.d(stockCopy.toString());
 
             if (stockArray.length == 0) {
-                return;
+                return null;
             }
 
             Map<String, Stock> quotes = YahooFinance.get(stockArray);
@@ -122,78 +136,11 @@ public final class QuoteSyncJob {
                 quoteStocks.add(StockModel.from(quoteCV));
             }
 
-            /*insert stock to DB and broadcast */
-            StockLocalDataSource.getInstance(context.getContentResolver()).insertStocks(
-                    quoteStocks, new StockDataSource.InsertStocksCallBacks() {
-                        @Override
-                        public void onStocksInserted() {
-                            Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
-                            context.sendBroadcast(dataUpdatedIntent);
-                        }
-
-                        @Override
-                        public void onInsertError() {
-                            Timber.e("Failed to insert stocks to DB");
-                        }
-                    });
-
+            return quoteStocks;
 
         } catch (IOException exception) {
             Timber.e(exception, "Error fetching stock quotes");
         }
+        return null;
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private static void schedulePeriodic(Context context) {
-        Timber.d("Scheduling a periodic task");
-
-
-        JobInfo.Builder builder = new JobInfo.Builder(PERIODIC_ID, new ComponentName(context, QuoteJobService.class));
-
-
-        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPeriodic(PERIOD)
-                .setBackoffCriteria(INITIAL_BACKOFF, JobInfo.BACKOFF_POLICY_EXPONENTIAL);
-
-
-        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-
-        scheduler.schedule(builder.build());
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static synchronized void initialize(final Context context) {
-
-        schedulePeriodic(context);
-        syncImmediately(context);
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static synchronized void syncImmediately(Context context) {
-
-        ConnectivityManager cm =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-            Intent nowIntent = new Intent(context, QuoteIntentService.class);
-            context.startService(nowIntent);
-        } else {
-
-            JobInfo.Builder builder = new JobInfo.Builder(ONE_OFF_ID, new ComponentName(context, QuoteJobService.class));
-
-
-            builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .setBackoffCriteria(INITIAL_BACKOFF, JobInfo.BACKOFF_POLICY_EXPONENTIAL);
-
-
-            JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-
-            scheduler.schedule(builder.build());
-
-        }
-    }
-
-
 }

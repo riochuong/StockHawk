@@ -1,4 +1,4 @@
-package stockhawk.jd.com.stockhawk.displaystocks;
+package stockhawk.jd.com.stockhawk.stockportfolio.displaystocks;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,10 +10,12 @@ import java.util.List;
 
 import stockhawk.jd.com.stockhawk.data.LoaderProvider;
 import stockhawk.jd.com.stockhawk.data.StockDataRepository;
-import stockhawk.jd.com.stockhawk.data.remote.QuoteSyncJob;
-import stockhawk.jd.com.stockhawk.displaystocks.model.StockModel;
-import stockhawk.jd.com.stockhawk.displaystocks.model.StockFilter;
-import stockhawk.jd.com.stockhawk.displaystocks.model.StockFilterType;
+import stockhawk.jd.com.stockhawk.data.StockDataSource;
+import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
+import stockhawk.jd.com.stockhawk.stockportfolio.model.StockFilter;
+import stockhawk.jd.com.stockhawk.stockportfolio.model.StockFilterType;
+import stockhawk.jd.com.stockhawk.util.NetworkUtilsModel;
+import timber.log.Timber;
 
 /**
  * Created by chuondao on 3/4/17.
@@ -25,21 +27,33 @@ public class DisplayMyStockPresenter implements DisplayMyStockContract.Presenter
     private StockDataRepository mRepository;
     private LoaderProvider mLoaderProvider;
     private LoaderManager mLoaderManager;
+    private NetworkUtilsModel mNetworkUtilsModel;
+
+    private static final int LOADER_ID = 541;
 
 
     public DisplayMyStockPresenter(DisplayMyStockContract.View mView,
                                    StockDataRepository mRepository,
                                    LoaderProvider mLoaderProvider,
-                                   LoaderManager mLoaderManager) {
+                                   LoaderManager mLoaderManager,
+                                   NetworkUtilsModel mNetworkUtils
+                                   ) {
         this.mView = mView;
         this.mRepository = mRepository;
         this.mLoaderProvider = mLoaderProvider;
         this.mLoaderManager = mLoaderManager;
+        this.mNetworkUtilsModel = mNetworkUtils;
+        mView.setPresenter(this);
+
     }
 
     @Override
     public void start() {
-
+        /* refresh stock data first */
+        refreshStockData();
+        mLoaderManager.initLoader(LOADER_ID,null,this).forceLoad();
+        /*then schedule periodic sync*/
+        mRepository.shedulePeriodicSync();
     }
 
     @Override
@@ -62,22 +76,39 @@ public class DisplayMyStockPresenter implements DisplayMyStockContract.Presenter
                         stockList.add(StockModel.from(data));
                     }
                 }
-                mView.updateStocksData(stockList);
+                // use view contract method to update stock data
+                mView.updateStockDataDisplay(stockList);
             }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        mView.updateStockDataDisplay(null);
+    }
 
+
+    @Override
+    public void refreshStockData() {
+        if (!mNetworkUtilsModel.networkUp()){
+            mView.displayFailToRefreshDuetoNetworkError();
+        }
+        mRepository.refreshStocks();
     }
 
     @Override
-    public void insertStock() {
+    public void deleteStockSymbol(String symbol) {
+        mRepository.deleteStock(symbol, new StockDataSource.DeleteStockCallBacks() {
+            @Override
+            public void onStocksDeleted() {
+                Timber.d("Stock is removed completely from DB");
 
+            }
+
+            @Override
+            public void onStockDeletedError() {
+                Timber.d("failed to delete stock from DB");
+            }
+        });
     }
 
-    @Override
-    public void fetchStocksData() {
-        mRepository.fetchStocks();
-    }
 }
