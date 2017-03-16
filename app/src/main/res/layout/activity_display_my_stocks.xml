@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="stockhawk.jd.com.stockhawk.stockportfolio.DisplayMyStocksActivity">
+    tools:context="stockhawk.jd.com.stockhawk.stockportfolio.displaystocks.DisplayMyStocksActivity">
 
 
     <fragment
         android:id="@+id/main_fragment"
         android:layout_width="match_parent"
         class="stockhawk.jd.com.stockhawk.stockportfolio.displaystocks.DisplayMyStockFragment"
-        tools:context=".stockportfolio.DisplayMyStocksActivity"
+        tools:context=".stockportfolio.displaystocks.DisplayMyStocksActivity"
         android:layout_height="match_parent"/>
 
 

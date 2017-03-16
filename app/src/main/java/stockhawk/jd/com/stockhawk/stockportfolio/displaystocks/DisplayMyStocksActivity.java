@@ -1,4 +1,4 @@
-package stockhawk.jd.com.stockhawk.stockportfolio;
+package stockhawk.jd.com.stockhawk.stockportfolio.displaystocks;
 
 import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
