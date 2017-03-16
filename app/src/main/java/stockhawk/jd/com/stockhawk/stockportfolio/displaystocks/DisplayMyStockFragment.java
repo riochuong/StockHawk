@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -82,7 +81,7 @@ public class DisplayMyStockFragment extends Fragment implements DisplayMyStockCo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_display_my_stock, container, false);
+        View view = inflater.inflate(R.layout.display_my_stock_fragment, container, false);
         ButterKnife.bind(this, view);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setRefreshing(true);

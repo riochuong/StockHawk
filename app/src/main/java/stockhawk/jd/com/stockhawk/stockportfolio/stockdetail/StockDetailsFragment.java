@@ -10,11 +10,13 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import stockhawk.jd.com.stockhawk.R;
+import stockhawk.jd.com.stockhawk.stockportfolio.model.PriceDataPoint;
+import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
 
 /**
  * Created by chuondao on 3/13/17.
@@ -48,7 +50,7 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_display_my_stock,container,false);
+        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.display_my_stock_fragment,container,false);
         ButterKnife.bind(this,rootView);
 
         return rootView;
@@ -69,5 +71,15 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
     @Override
     public void setPresenter(StockDetailsContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void setDataForChart(ArrayList<PriceDataPoint> data) {
+
+    }
+
+    @Override
+    public void setStockCommonData(StockModel stock) {
+
     }
 }

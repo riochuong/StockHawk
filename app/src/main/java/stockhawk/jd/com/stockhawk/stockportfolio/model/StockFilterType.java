@@ -8,6 +8,8 @@ public enum StockFilterType {
     /*load all stocks added by users*/
     ALL_PERSONAL_STOCKS,
 
+    ONE_SPECIFIC_STOCK,
+
     /*top 100 hot stocks*/
     TOP_100_STOCKS,
 

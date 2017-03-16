@@ -18,6 +18,7 @@ package stockhawk.jd.com.stockhawk.data;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -26,6 +27,8 @@ import android.support.v4.content.Loader;
  * This class returns the correct cursor loader based on the Filter given from the
  * Presenter
  */
+
+import java.net.URI;
 
 import stockhawk.jd.com.stockhawk.data.local.StockContract;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockFilter;
@@ -45,20 +48,28 @@ public class LoaderProvider {
     public Loader<Cursor> createFilteredTasksLoader(StockFilter taskFilter) {
         String selection = null;
         String[] selectionArgs = null;
-
+        Uri uri = null;
+        String symbol = taskFilter.getSymbol();
         switch (taskFilter.getStockFilterType()) {
             case ALL_PERSONAL_STOCKS:
                 selection = null;
                 selectionArgs = null;
+                uri = StockContract.Quote.URI;
                 break;
 
+            case ONE_SPECIFIC_STOCK:
+                if (symbol == null){
+                    throw new IllegalArgumentException("symbol must be a valid value");
+                }
+                uri = StockContract.Quote.URI.buildUpon().appendPath(symbol).build();
+                break;
         }
-
         return new CursorLoader(
                 mContext,
-                StockContract.Quote.URI,
+                uri,
                 StockContract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),selection, selectionArgs, null
         );
+
     }
 
 }

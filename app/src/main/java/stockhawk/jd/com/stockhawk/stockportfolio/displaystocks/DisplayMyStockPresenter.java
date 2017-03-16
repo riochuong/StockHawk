@@ -63,7 +63,7 @@ public class DisplayMyStockPresenter implements DisplayMyStockContract.Presenter
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return mLoaderProvider.createFilteredTasksLoader(new StockFilter(StockFilterType.ALL_PERSONAL_STOCKS));
+        return mLoaderProvider.createFilteredTasksLoader(new StockFilter(StockFilterType.ALL_PERSONAL_STOCKS, null));
     }
 
     @Override

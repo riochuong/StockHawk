@@ -7,12 +7,21 @@ package stockhawk.jd.com.stockhawk.stockportfolio.model;
 public class StockFilter {
 
     private StockFilterType mStockFilterType;
+    /* if this is null -- get all available stocks */
+    private String mSymbol;
 
     public StockFilterType getStockFilterType() {
         return mStockFilterType;
     }
 
-    public StockFilter(StockFilterType mStockFilterType) {
-        this.mStockFilterType = mStockFilterType;
+    public String getSymbol() {
+        return mSymbol;
     }
+
+    public StockFilter(StockFilterType mStockFilterType, String symbol) {
+        this.mStockFilterType = mStockFilterType;
+        this.mSymbol = symbol;
+    }
+
+
 }
