@@ -6,11 +6,21 @@ package stockhawk.jd.com.stockhawk.stockportfolio.model;
 
 public class PriceDataPoint {
 
-    private float mTimeStamp;
+    private long mTimeStamp;
     private float mStockPrice;
 
-    public PriceDataPoint(float mTimeStamp, float mStockPrice) {
+    public PriceDataPoint(long mTimeStamp, float mStockPrice) {
         this.mTimeStamp = mTimeStamp;
         this.mStockPrice = mStockPrice;
     }
+
+    public long getTimeStamp() {
+        return mTimeStamp;
+    }
+
+    public float getStockPrice() {
+        return mStockPrice;
+    }
+
+
 }

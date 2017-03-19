@@ -1,6 +1,7 @@
 package stockhawk.jd.com.stockhawk.stockportfolio.displaystocks;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 import stockhawk.jd.com.stockhawk.R;
 import stockhawk.jd.com.stockhawk.stockportfolio.addstocksdialog.AddStockDiaglogFragment;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
+import stockhawk.jd.com.stockhawk.stockportfolio.stockdetail.StockDetailsActivity;
 import stockhawk.jd.com.stockhawk.util.PrefUtilsModel;
 
 /**
@@ -51,6 +53,7 @@ public class DisplayMyStockFragment extends Fragment implements DisplayMyStockCo
 
     private DisplayMyStockContract.Presenter mPresenter;
     private StockAdapter mAdapter;
+    private static final String STOCK_SYMBOL_KEY = "stock_symbol";
 
     public DisplayMyStockFragment() {
         // Required empty public constructor
@@ -143,7 +146,10 @@ public class DisplayMyStockFragment extends Fragment implements DisplayMyStockCo
     /* ON VIEW CLICK */
     @Override
     public void onClick(String symbol) {
-
+        // start new acitivy
+        Intent startDetailStockView = new Intent(getContext(), StockDetailsActivity.class);
+        startDetailStockView.putExtra(STOCK_SYMBOL_KEY,symbol);
+        getContext().startActivity(startDetailStockView);
     }
 
 

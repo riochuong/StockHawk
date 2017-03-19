@@ -19,10 +19,17 @@ public class StockDetailsContract {
         /* complete textviews with all neccessary data */
         void setStockCommonData(StockModel stock);
 
+        /* this one should be called when new stock added but we can not get the
+        * data both from DB and Network. Might just show an empty view
+        * */
+        void displayNetworkError();
+
     }
 
     interface Presenter extends BasePresenter{
         /*retreive data related to the requested stock*/
         void getStockData(String symbol);
+
+
     }
 }

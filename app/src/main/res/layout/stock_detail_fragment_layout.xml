@@ -7,33 +7,38 @@
     app:columnCount="2">
 
 
-    <android.support.v4.widget.Space
-        app:layout_columnSpan="2"
-        app:layout_columnWeight="1"
-        app:layout_rowWeight="1">
-    </android.support.v4.widget.Space>
-
     <!--collumn stock symbol-->
     <LinearLayout
+        android:layout_width="0dp"
         app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/stock_symbol_text"
             android:layout_width="wrap_content"
             android:fontFamily="sans-serif"
+            android:textSize="@dimen/stock_symbol_text_size"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/stock_full_name"
             android:layout_width="wrap_content"
+            android:textSize="@dimen/stock_name_text_size"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
     <!--Colllumn stock price -->
     <LinearLayout
+        android:layout_width="0dp"
         app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
         android:orientation="vertical">
 
         <TextView
@@ -42,18 +47,27 @@
             android:fontFamily="sans-serif"
             android:textStyle="bold"
             android:textSize="@dimen/stock_price_text_size"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/stock_changes"
             android:fontFamily="sans-serif"
             android:layout_width="wrap_content"
+            android:textSize="@dimen/stock_change_text_size"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/stock_volume"
             android:fontFamily="sans-serif"
+            android:textSize="@dimen/stock_volume_text_size"
             android:layout_width="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
@@ -62,14 +76,14 @@
     <TextView
         app:layout_columnSpan="2"
         app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
         android:text="@string/chart_title"/>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart"
         app:layout_columnSpan="2"
+        app:layout_rowSpan="2"
         app:layout_columnWeight="1"
-        app:layout_rowWeight="1">
+        app:layout_rowWeight="2">
 
     </com.github.mikephil.charting.charts.LineChart>
 

@@ -90,8 +90,6 @@ public class QuoteIntentService extends IntentService {
 
             while (iterator.hasNext()) {
                 String symbol = iterator.next();
-
-
                 Stock stock = quotes.get(symbol);
 
                 // avoid bad quote got added -- stock with no price should be invalid
@@ -110,6 +108,8 @@ public class QuoteIntentService extends IntentService {
                 float price = quote.getPrice().floatValue();
                 float change = quote.getChange().floatValue();
                 float percentChange = quote.getChangeInPercent().floatValue();
+                long volumeAvg = quote.getAvgVolume();
+                String name = stock.getName();
 
                 // WARNING! Don't request historical data for a stock that doesn't exist!
                 // The request will hang forever X_x
@@ -129,6 +129,8 @@ public class QuoteIntentService extends IntentService {
                 quoteCV.put(StockContract.Quote.COLUMN_PRICE, price);
                 quoteCV.put(StockContract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
                 quoteCV.put(StockContract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
+                quoteCV.put(StockContract.Quote.COLUMN_VOLUME_AVG, volumeAvg);
+                quoteCV.put(StockContract.Quote.COLUMN_NAME, name);
 
 
                 quoteCV.put(StockContract.Quote.COLUMN_HISTORY, historyBuilder.toString());

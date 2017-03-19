@@ -154,8 +154,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
         @Override
         public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
-            clickHandler.onClick(getSymbolAtPosition(adapterPosition));
+            clickHandler.onClick(symbol.getText().toString());
         }
     }
 }

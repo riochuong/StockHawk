@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import butterknife.ButterKnife;
 import stockhawk.jd.com.stockhawk.R;
@@ -13,10 +12,6 @@ import stockhawk.jd.com.stockhawk.data.LoaderProvider;
 import stockhawk.jd.com.stockhawk.data.StockDataRepository;
 import stockhawk.jd.com.stockhawk.data.local.StockLocalDataSource;
 import stockhawk.jd.com.stockhawk.data.remote.StockRemoteDataSource;
-import stockhawk.jd.com.stockhawk.stockportfolio.addstocksdialog.AddStockDiaglogFragment;
-import stockhawk.jd.com.stockhawk.stockportfolio.displaystocks.DisplayMyStockContract;
-import stockhawk.jd.com.stockhawk.stockportfolio.displaystocks.DisplayMyStockFragment;
-import stockhawk.jd.com.stockhawk.stockportfolio.displaystocks.DisplayMyStockPresenter;
 import stockhawk.jd.com.stockhawk.util.NetworkUtilsModel;
 import stockhawk.jd.com.stockhawk.util.PrefUtilsModel;
 
@@ -28,7 +23,7 @@ public class DisplayMyStocksActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_my_stocks);
+        setContentView(R.layout.display_my_stocks_activity);
         ButterKnife.bind(this);
         // Create elements for MVP
         StockLocalDataSource stockLocalDataSource = StockLocalDataSource.getInstance(getContentResolver());
