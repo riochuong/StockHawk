@@ -31,6 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import stockhawk.jd.com.stockhawk.R;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.PriceDataPoint;
+import stockhawk.jd.com.stockhawk.stockportfolio.model.StockHistoryModel;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockPriceComparator;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockTimestampComparator;
@@ -60,6 +61,19 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
     @BindView(R.id.stock_volume)
     TextView stockVolume;
 
+    @BindView(R.id.one_year_high)
+    TextView oneYearHigh;
+
+    @BindView(R.id.one_year_low)
+    TextView oneYearLow;
+
+    @BindView(R.id.prev_close_data)
+    TextView prevClose;
+
+    @BindView(R.id.one_year_change)
+    TextView oneYearChange;
+
+
     StockDetailsContract.Presenter mPresenter;
 
     private static final String DATA_SET_LABEL = "line_chart_label";
@@ -68,6 +82,10 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
 
     /*animation time for the plot*/
     private static final int ANIMATION_DURATION = 1000 ;
+
+    private static final String FLOAT_DISP_FORMAT = "%.2f";
+
+    private static final String STOCK_CHANGE_FORMAT = "$%s(%s%%)"; // absolute change and percentage change
 
     @Nullable
     @Override
@@ -107,8 +125,8 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
     }
 
     @Override
-    public void setDataForChart(ArrayList<PriceDataPoint> data) {
-        ArrayList<Entry> values = constructEntryist(data);
+    public void setDataForChart(StockHistoryModel histModel) {
+        ArrayList<Entry> values = constructEntryist(histModel.getData());
         LineData lineData = null;
         if (stockLineChart.getData() == null){
             // set marker first
@@ -125,9 +143,8 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
             LineDataSet set = (LineDataSet) lineData.getDataSetByIndex(0);
             set.setValues(values);
         }
-        Pair<Float,Float> pricesMaxMin = getStockMaxMinPrice(data);
         // add the limit line to the plot
-        setStockLimitLine(pricesMaxMin.first,pricesMaxMin.second);
+        setStockLimitLine(histModel.get52Wkhigh(),histModel.get52WkLow());
         // set animation
         stockLineChart.animateXY(ANIMATION_DURATION, ANIMATION_DURATION);
 
@@ -140,19 +157,6 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
     }
 
 
-    /**
-     *
-     * @param data
-     * @return
-     */
-    private Pair<Float,Float> getStockMaxMinPrice(ArrayList<PriceDataPoint> data){
-
-        // sort data by price
-        Collections.sort(data, new StockPriceComparator());
-        float maxPrice = data.get(data.size() - 1).getStockPrice();
-        float minPrice = data.get(0).getStockPrice();
-        return new Pair(minPrice,maxPrice);
-    }
 
     /**
      * helper to generate values data for fragment
@@ -163,30 +167,29 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
         ArrayList<Entry> values = new ArrayList<>();
         // going through and add data to list
         // first sort the data
-        Collections.sort(data,new StockTimestampComparator());
         for (PriceDataPoint item : data){
             values.add (new Entry(item.getTimeStamp(),item.getStockPrice()));
         }
-
         return values;
     }
 
-
-    private void setStockLimitLine(float minPrice, float maxPrice){
+    /**
+     * set limit line for the chart
+     * @param maxPrice
+     * @param minPrice
+     */
+    private void setStockLimitLine(float maxPrice, float minPrice){
         if (stockLineChart == null){
             return;
         }
         // set upper bound
         LimitLine ll1 = new LimitLine(maxPrice, getContext().getString(R.string.highest_price));
-//        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), getContext().getString(R.string
-//                .type_face_font));
         ll1.setLineWidth(4f);
         ll1.enableDashedLine(10f, 10f, 0f);
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
         ll1.setTextSize(10f);
 
         stockLineChart.getXAxis().setDrawLabels(false);
- //       ll1.setTypeface(tf);
 
         // set lower bound
         LimitLine ll2 = new LimitLine(minPrice, getContext().getString(R.string.lowest_price));
@@ -245,8 +248,22 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
         stockName.setText("("+stock.getName()+")");
         stockSymbol.setText(stock.getSymbol());
         stockPrice.setText(stock.getPrice());
-        stockChanges.setText(stock.getPercentageChange());
+        stockChanges.setText(String.format(STOCK_CHANGE_FORMAT,stock.getAbsoluteChange(),stock.getPercentageChange()));
         stockVolume.setText(stock.getVolume());
+    }
+
+    @Override
+    public void setStockChangeColor(int color) {
+        stockChanges.setTextColor(color);
+        stockPrice.setTextColor(color);
+    }
+
+    @Override
+    public void setStockHistoryData(StockHistoryModel histModel) {
+        oneYearChange.setText(String.format(FLOAT_DISP_FORMAT,histModel.getPctChange52wk())+"%");
+        oneYearHigh.setText(String.format(FLOAT_DISP_FORMAT,histModel.get52Wkhigh()));
+        oneYearLow.setText(String.format(FLOAT_DISP_FORMAT,histModel.get52WkLow()));
+        prevClose.setText(String.format(FLOAT_DISP_FORMAT,histModel.getPrevClose()));
     }
 
     @Override

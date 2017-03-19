@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                      android:layout_width="match_parent"
+                                      android:layout_height="match_parent"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                      app:columnCount="2">
+
+
+    <TextView
+        android:id="@+id/prev_close_title"
+        android:layout_width="0dp"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        android:textSize="@dimen/history_stock_font_size"
+        android:text="@string/prev_close_title_text"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/prev_close_data"
+        android:layout_width="0dp"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        android:textSize="@dimen/history_stock_font_size"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"/>
+
+    <!--seperator-->
+    <include layout="@layout/horizontal_seperator"/>
+
+    <TextView
+        android:id="@+id/one_year_high_title"
+        android:layout_width="0dp"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        android:text="@string/one_year_high_title_text"
+        android:textSize="@dimen/history_stock_font_size"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/one_year_high"
+        android:layout_width="0dp"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        android:textSize="@dimen/history_stock_font_size"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/horizontal_seperator"/>
+
+    <TextView
+        android:id="@+id/one_year_low_title"
+        android:layout_width="0dp"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        android:text="@string/one_year_low_title_text"
+        android:textSize="@dimen/history_stock_font_size"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/one_year_low"
+        android:layout_width="0dp"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        android:textSize="@dimen/history_stock_font_size"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/horizontal_seperator"/>
+
+    <TextView
+        android:id="@+id/one_year_change_title"
+        android:layout_width="0dp"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        android:text="@string/one_year_change_title_text"
+        android:textSize="@dimen/history_stock_font_size"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/one_year_change"
+        android:layout_width="0dp"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        android:textSize="@dimen/history_stock_font_size"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/horizontal_seperator"/>
+
+</android.support.v7.widget.GridLayout>

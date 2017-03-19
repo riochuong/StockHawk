@@ -72,9 +72,11 @@
 
     </LinearLayout>
 
-    <!--TODO: include plot below this-->
     <TextView
         app:layout_columnSpan="2"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/text_detail_size"
+        android:textStyle="bold|italic"
         app:layout_columnWeight="1"
         android:text="@string/chart_title"/>
 
@@ -89,11 +91,20 @@
 
     <TextView
         app:layout_columnSpan="2"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textStyle="bold|italic"
+        android:textSize="@dimen/text_detail_size"
         app:layout_columnWeight="1"
-        app:layout_rowWeight="1"
         android:text="@string/details_title"/>
 
-    <!--Todo : add news feeds if feasible-->
+
+    <include
+            app:layout_columnSpan="2"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            layout="@layout/stock_history_data_layout"/>
+
+
 
     <!--include some technical extra information here from layout -->
 </android.support.v7.widget.GridLayout>

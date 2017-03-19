@@ -6,4 +6,8 @@
     <dimen name="stock_symbol_text_size">40sp</dimen>
     <dimen name="stock_volume_text_size">20sp</dimen>
     <dimen name="stock_name_text_size">20sp</dimen>
+    <dimen name="seperator_thickness">1dp</dimen>
+    <dimen name="seperator_top_margin">5dp</dimen>
+    <dimen name="history_stock_font_size">15sp</dimen>
+    <dimen name="text_detail_size">15sp</dimen>
 </resources>

@@ -1,6 +1,7 @@
 package stockhawk.jd.com.stockhawk.stockportfolio.stockdetail;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -13,6 +14,7 @@ import stockhawk.jd.com.stockhawk.stockportfolio.displaystocks.DisplayMyStockCon
 import stockhawk.jd.com.stockhawk.stockportfolio.model.PriceDataPoint;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockFilter;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockFilterType;
+import stockhawk.jd.com.stockhawk.stockportfolio.model.StockHistoryModel;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
 import stockhawk.jd.com.stockhawk.util.NetworkUtilsModel;
 
@@ -27,6 +29,8 @@ public class StockDetailsPresenter implements StockDetailsContract.Presenter, Lo
     private LoaderProvider mLoaderProvider;
     private LoaderManager mLoaderManager;
     private NetworkUtilsModel mNetworkUtilsModel;
+    private StockModel mCurrentStockModel;
+    private StockHistoryModel mCurrentStockHistoryModel;
 
     private static final int LOAD_STOCK_DATA_SPEC = 702;
     private static final String STOCK_SYMBOL = "stock_symbol";
@@ -74,16 +78,22 @@ public class StockDetailsPresenter implements StockDetailsContract.Presenter, Lo
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data.getCount() > 0){
             data.moveToFirst();
-            StockModel stock = StockModel.from(data);
+            mCurrentStockModel = StockModel.from(data);
+            ArrayList<PriceDataPoint> hist = parseQuoteHistoryString(mCurrentStockModel.getHistory());
+            if (hist == null){
+                throw new IllegalArgumentException("Stock History cannot be found");
+            }
+            mCurrentStockHistoryModel = new StockHistoryModel(hist);
 
             // parse data for stock info
-            mView.setStockCommonData(stock);
+            mView.setStockCommonData(mCurrentStockModel);
 
-            // TODO: parse dat for stock details
+            setStockChangeColor(mCurrentStockModel);
 
+            mView.setStockHistoryData(mCurrentStockHistoryModel);
 
             // parse data for stock plots
-            updateDataForStockPlot(stock);
+            mView.setDataForChart(mCurrentStockHistoryModel);
         }
         else{
 
@@ -100,15 +110,16 @@ public class StockDetailsPresenter implements StockDetailsContract.Presenter, Lo
     }
 
     /**
-     * helper to call for updating plot data on view
+     * determine if we should set view stock change color to red or green
      * @param model
      */
-    private void updateDataForStockPlot(StockModel model){
-        ArrayList<PriceDataPoint> stockPrices;
-        if (model != null){
-            stockPrices = parseQuoteHistoryString(model.getHistory());
-            // update stock price data here
-            if (stockPrices != null){ mView.setDataForChart(stockPrices); }
+    private void setStockChangeColor(StockModel model){
+        float change = Float.parseFloat(model.getAbsoluteChange());
+        if (change < 0){
+            mView.setStockChangeColor(Color.RED);
+        }
+        else{
+            mView.setStockChangeColor(Color.GREEN);
         }
     }
 
@@ -152,4 +163,5 @@ public class StockDetailsPresenter implements StockDetailsContract.Presenter, Lo
         data.putString(STOCK_SYMBOL,symbol);
         mLoaderManager.initLoader(LOAD_STOCK_DATA_SPEC,data,this).forceLoad();
     }
+
 }

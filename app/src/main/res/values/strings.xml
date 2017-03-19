@@ -40,5 +40,9 @@
     <string name="highest_price">Highest Price</string>
     <string name="type_face_font">OpenSans-Regular.ttf</string>
     <string name="lowest_price">Lowest Price</string>
+    <string name="one_year_high_title_text">52 Week High</string>
+    <string name="one_year_low_title_text">52 Week Low</string>
+    <string name="one_year_change_title_text">One Year Change</string>
+    <string name="prev_close_title_text">Previous Close</string>
 
 </resources>
