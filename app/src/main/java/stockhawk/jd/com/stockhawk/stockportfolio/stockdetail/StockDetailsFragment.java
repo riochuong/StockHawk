@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -95,6 +96,13 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
 
         ButterKnife.bind(this,rootView);
 
+        // disable zoom feature and some others uneccessary one for line chart
+        stockLineChart.setPinchZoom(false);
+        stockLineChart.getLegend().setEnabled(false);
+        stockLineChart.getDescription().setEnabled(false);
+        stockLineChart.setDoubleTapToZoomEnabled(false);
+
+
         return rootView;
     }
 
@@ -130,8 +138,8 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
         LineData lineData = null;
         if (stockLineChart.getData() == null){
             // set marker first
-            MyMarkerView mv = new MyMarkerView(getContext(), R.layout.custom_marker_view);
-            mv.setChartView(stockLineChart); // For bounds control
+             MyMarkerView mv = new MyMarkerView(getContext(), R.layout.custom_marker_view);
+             mv.setChartView(stockLineChart); // For bounds control
             stockLineChart.setMarker(mv); // Set the marker to the chart
             // initialize data
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
@@ -183,21 +191,22 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
             return;
         }
         // set upper bound
-        LimitLine ll1 = new LimitLine(maxPrice, getContext().getString(R.string.highest_price));
+        LimitLine ll1 = new LimitLine(maxPrice, maxPrice+"");
         ll1.setLineWidth(4f);
         ll1.enableDashedLine(10f, 10f, 0f);
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
         ll1.setTextSize(10f);
+        ll1.setTextColor(getTextColor());
 
         stockLineChart.getXAxis().setDrawLabels(false);
 
         // set lower bound
-        LimitLine ll2 = new LimitLine(minPrice, getContext().getString(R.string.lowest_price));
+        LimitLine ll2 = new LimitLine(minPrice,minPrice+"");
         ll2.setLineWidth(4f);
         ll2.enableDashedLine(10f, 10f, 0f);
         ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
         ll2.setTextSize(10f);
-        //ll2.setTypeface(tf);
+        ll2.setTextColor(getTextColor());
 
         YAxis leftAxis = stockLineChart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
@@ -205,11 +214,25 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
         leftAxis.addLimitLine(ll2);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
         leftAxis.setDrawZeroLine(false);
-
+        leftAxis.setTextColor(Color.WHITE);
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
 
         stockLineChart.getAxisRight().setEnabled(false);
+
+    }
+
+    /**
+     * get text color from resource
+     * @return
+     */
+    private int getTextColor(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return getContext().getResources().getColor(R.color.colorPrimaryLight,
+                        getContext().getTheme());
+        }else{
+            return getContext().getResources().getColor(R.color.colorPrimaryLight);
+        }
     }
 
     /**
@@ -227,11 +250,11 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
         set.setCircleRadius(3f);
         set.setDrawCircleHole(false);
         set.setValueTextSize(9f);
+        set.setValueTextColor(getTextColor());
         set.setDrawFilled(true);
         set.setFormLineWidth(1f);
         set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
         set.setFormSize(15.f);
-
         if (Utils.getSDKInt() >= 18) {
             // fill drawable only supported on api level 18 and above
             Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_red);

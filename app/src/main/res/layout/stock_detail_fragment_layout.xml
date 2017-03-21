@@ -74,10 +74,11 @@
 
     <TextView
         app:layout_columnSpan="2"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:textSize="@dimen/text_detail_size"
         android:textStyle="bold|italic"
         app:layout_columnWeight="1"
+        android:background="@color/material_blue_500"
         android:text="@string/chart_title"/>
 
     <com.github.mikephil.charting.charts.LineChart
@@ -91,10 +92,11 @@
 
     <TextView
         app:layout_columnSpan="2"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:textStyle="bold|italic"
         android:textSize="@dimen/text_detail_size"
         app:layout_columnWeight="1"
+        android:background="@color/material_blue_500"
         android:text="@string/details_title"/>
 
 

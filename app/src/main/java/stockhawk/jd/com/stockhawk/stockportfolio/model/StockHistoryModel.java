@@ -22,8 +22,8 @@ public class StockHistoryModel {
 
         // set 52wk high, low data
         Collections.sort(data, new StockPriceComparator());
-        max52wkHigh = data.get(0).getStockPrice();
-        max52wkLow = data.get(data.size() - 1).getStockPrice();
+        max52wkLow = data.get(0).getStockPrice();
+        max52wkHigh = data.get(data.size() - 1).getStockPrice();
 
         // sort data based on timestamp
         Collections.sort(data, new StockTimestampComparator());

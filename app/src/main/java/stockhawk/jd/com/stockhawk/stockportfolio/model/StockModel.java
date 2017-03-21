@@ -27,6 +27,12 @@ public class StockModel implements  Comparable<StockModel>{
 
     private final String mName;
 
+    private static final int ONE_BILL = 1 * 1000 * 1000 * 1000;
+    private static final int ONE_MILL = 1 * 1000 * 1000;
+    private static final int ONE_K  = 1 * 1000;
+
+    private static final String VOLUME_FORMAT = "AVG.VOL: %.2f";
+
     public StockModel(String mSymbol, String mPrice, String mAbsoluteChange, String mPercentageChange, String
             mHistory, String mVolume, String name) {
         this.mSymbol = mSymbol;
@@ -106,7 +112,32 @@ public class StockModel implements  Comparable<StockModel>{
         return mHistory;
     }
 
-    public String getVolume() {return mVolumeAvg;}
+    /*do a little work here to have volume nice formatting*/
+    public String getVolume() {
+
+        float volumeDigit = Float.parseFloat(mVolumeAvg);
+        float ret;
+        // BILLION MAGNITUDE
+        if (volumeDigit > ONE_BILL){
+            ret = volumeDigit / ONE_BILL;
+            return String.format(VOLUME_FORMAT,ret)+"B";
+        }
+
+        // MILLION MAGNITUDE
+        if (volumeDigit > ONE_MILL){
+            ret = volumeDigit / ONE_MILL;
+            return String.format(VOLUME_FORMAT,ret)+"M";
+        }
+
+        // THOUSANDS MAGNITUDE
+        if (volumeDigit > ONE_K){
+            ret = volumeDigit / ONE_K;
+            return String.format(VOLUME_FORMAT,ret)+"K";
+        }
+
+        return "AVG.VOL: "+mVolumeAvg;
+
+    }
 
     public String getName() {return mName;}
 

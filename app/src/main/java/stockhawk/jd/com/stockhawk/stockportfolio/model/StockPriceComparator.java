@@ -3,7 +3,7 @@ package stockhawk.jd.com.stockhawk.stockportfolio.model;
 import java.util.Comparator;
 
 /**
- * Created by chuondao on 3/18/17.
+ * StockPriceComparator helps to sort the data based on price
  */
 
 public class StockPriceComparator implements Comparator<PriceDataPoint> {
