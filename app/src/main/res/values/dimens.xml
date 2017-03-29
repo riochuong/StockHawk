@@ -10,4 +10,8 @@
     <dimen name="seperator_top_margin">5dp</dimen>
     <dimen name="history_stock_font_size">15sp</dimen>
     <dimen name="text_detail_size">15sp</dimen>
+    <dimen name="widget_stock_symbol_text_size">15sp</dimen>
+    <dimen name="widget_stock_price_size">10sp</dimen>
+    <dimen name="widget_stock_detail_default_height">180dp</dimen>
+    <dimen name="widget_stock_detail_default_width">250dp</dimen>
 </resources>

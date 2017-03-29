@@ -2,6 +2,7 @@ package stockhawk.jd.com.stockhawk.data.local;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
@@ -16,7 +17,7 @@ import timber.log.Timber;
  * Created by chuondao on 3/5/17.
  */
 
-public class StockLocalDataSource implements  StockDataSource{
+public class StockLocalDataSource implements StockDataSource {
 
     private ContentResolver mContentResolver;
 
@@ -28,8 +29,8 @@ public class StockLocalDataSource implements  StockDataSource{
     }
 
     /*factory method to get instance */
-    public static StockLocalDataSource getInstance(@NonNull ContentResolver contentResolver){
-        if (INSTANCE == null){
+    public static StockLocalDataSource getInstance(@NonNull ContentResolver contentResolver) {
+        if (INSTANCE == null) {
             INSTANCE = new StockLocalDataSource(contentResolver);
         }
 
@@ -40,7 +41,7 @@ public class StockLocalDataSource implements  StockDataSource{
     @Override
     public void insertStocks(@NonNull List<StockModel> stocks, InsertStocksCallBacks callBacks) {
 
-        if (stocks == null){
+        if (stocks == null) {
             Timber.e("Provided and empty list of stocks for updating ! we can just ignore ");
             callBacks.onInsertError();
             return;
@@ -48,8 +49,8 @@ public class StockLocalDataSource implements  StockDataSource{
 
         /* convert to content values array */
         List<ContentValues> cvs = new ArrayList<>();
-        ContentValues [] cvas = new ContentValues [stocks.size()] ;
-        for (StockModel stock: stocks){
+        ContentValues[] cvas = new ContentValues[stocks.size()];
+        for (StockModel stock : stocks) {
             cvs.add(stock.toContentValue());
         }
         /*convert to array*/
@@ -61,10 +62,9 @@ public class StockLocalDataSource implements  StockDataSource{
                         cvas);
 
         /* insert stocks and callback */
-        if (inserted <= 0){
+        if (inserted <= 0) {
             callBacks.onInsertError();
-        }
-        else{
+        } else {
             callBacks.onStocksInserted();
         }
     }
@@ -72,11 +72,10 @@ public class StockLocalDataSource implements  StockDataSource{
     @Override
     public void deleteStock(@NonNull String symbol, DeleteStockCallBacks callBacks) {
         Uri uri = StockContract.Quote.makeUriForStock(symbol);
-        int res = mContentResolver.delete(uri,null,null);
-        if (res <= 0){
+        int res = mContentResolver.delete(uri, null, null);
+        if (res <= 0) {
             callBacks.onStockDeletedError();
-        }
-        else{
+        } else {
             callBacks.onStocksDeleted();
         }
     }
@@ -94,6 +93,34 @@ public class StockLocalDataSource implements  StockDataSource{
     @Override
     public void shedulePeriodicSync() {
         // No-op this will be handle by repository with remote data source
+    }
+
+    @Override
+    public void getPortfolioStocks(OnGetPortfolioStockCallbacks cb) {
+        Uri uri = StockContract.Quote.URI;
+        List<StockModel> listStocks = new ArrayList<>();
+        Cursor cursor = mContentResolver.query(uri, null, null, null, null);
+        // process data here
+        if (cursor != null) {
+            cursor.moveToFirst();
+            if (cursor != null) {
+                for (int i = 0; i < cursor.getCount(); i++) {
+                    cursor.moveToPosition(i);
+                    StockModel model = StockModel.from(cursor);
+                    listStocks.add(model);
+                }
+            }
+
+        }
+
+        // callbacks
+        if (listStocks.size() > 0){
+            cb.onStocksReceived(listStocks);
+        }
+        else{
+            cb.onStockRequestError();
+        }
+
     }
 
 

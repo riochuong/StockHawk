@@ -113,4 +113,9 @@ public class StockRemoteDataSource implements StockDataSource {
     public void shedulePeriodicSync() {
         schedulePeriodic();
     }
+
+    @Override
+    public void getPortfolioStocks(OnGetPortfolioStockCallbacks callbacks) {
+        // NO-OP
+    }
 }

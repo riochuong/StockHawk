@@ -32,6 +32,11 @@ public interface StockDataSource {
         void onStockDeletedError();
     }
 
+    interface OnGetPortfolioStockCallbacks {
+        void onStocksReceived(List<StockModel> stocks);
+        void onStockRequestError();
+    }
+
 
     void insertStocks(@NonNull List<StockModel> stocks, InsertStocksCallBacks callBacks);
 
@@ -45,5 +50,8 @@ public interface StockDataSource {
 
     /* schedule periodic sync for stocks*/
     void shedulePeriodicSync();
+
+    /* retreived stocks */
+    void getPortfolioStocks(OnGetPortfolioStockCallbacks callbacks);
 
 }

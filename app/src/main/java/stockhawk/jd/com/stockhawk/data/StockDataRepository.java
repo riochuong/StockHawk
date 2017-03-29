@@ -14,6 +14,7 @@ import stockhawk.jd.com.stockhawk.util.PrefUtilsModel;
 
 public class StockDataRepository implements  StockDataSource {
 
+    private static final String TAG  = "StockDataRepo";
     StockDataSource mStockLocalDataSource;
     StockRemoteDataSource mRemoteDataSource;
     PrefUtilsModel mPrefUtilsModel;
@@ -76,11 +77,28 @@ public class StockDataRepository implements  StockDataSource {
         mRemoteDataSource.shedulePeriodicSync();
     }
 
+    @Override
+    public void getPortfolioStocks(final OnGetPortfolioStockCallbacks cb) {
+        this.mStockLocalDataSource.getPortfolioStocks(new OnGetPortfolioStockCallbacks() {
+            @Override
+            public void onStocksReceived(List<StockModel> stocks) {
+                cb.onStocksReceived(stocks);
+            }
+
+            @Override
+            public void onStockRequestError() {
+                // try to refresh stocks and recall get portfolio
+               mRemoteDataSource.refreshStocks();
+               mStockLocalDataSource.getPortfolioStocks(cb);
+            }
+        });
+    }
+
     public static StockDataRepository getInstance(StockDataSource localDataSource,
-                                                  StockRemoteDataSource mJobScheduleModel,
-                                                  PrefUtilsModel mPrefUtils){
+                                                  StockRemoteDataSource remoteDataSource,
+                                                  PrefUtilsModel prefUtils){
         if (INSTANCE == null){
-            INSTANCE = new StockDataRepository(localDataSource, mJobScheduleModel, mPrefUtils);
+            INSTANCE = new StockDataRepository(localDataSource, remoteDataSource, prefUtils);
         }
 
         return INSTANCE;

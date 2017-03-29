@@ -30,6 +30,22 @@
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
 
+        <service
+            android:name="stockhawk.jd.com.stockhawk.stockportfolio.widget.MyStockWidgetRemoteService"
+            android:exported="false"
+            android:enabled="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+        <receiver android:name="stockhawk.jd.com.stockhawk.stockportfolio.widget.MyStockWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.udacity.stockhawk.ACTION_DATA_UPDATED" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                       android:resource="@xml/widget_stock_detail" />
+        </receiver>
+
+
         <provider
             android:name=".data.StockProvider"
             android:authorities="${packageName}"

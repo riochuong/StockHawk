@@ -29,7 +29,7 @@ import yahoofinance.quotes.stock.StockQuote;
 
 public class QuoteIntentService extends IntentService {
 
-    private static final String ACTION_DATA_UPDATED = "com.udacity.stockhawk.ACTION_DATA_UPDATED";
+    public static final String ACTION_DATA_UPDATED = "com.udacity.stockhawk.ACTION_DATA_UPDATED";
     private static final int YEARS_OF_HISTORY = 2;
 
 

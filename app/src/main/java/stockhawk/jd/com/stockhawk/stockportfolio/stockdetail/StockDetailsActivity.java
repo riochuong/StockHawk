@@ -19,7 +19,7 @@ import stockhawk.jd.com.stockhawk.util.PrefUtilsModel;
 
 public class StockDetailsActivity extends AppCompatActivity {
 
-    private static final String STOCK_SYMBOL = "stock_symbol";
+    public static final String STOCK_SYMBOL = "stock_symbol";
     private static final String MOVIE_DETAIL_FRAG = "movie_detail_frag";
 
     @Override
