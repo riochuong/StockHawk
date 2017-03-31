@@ -12,6 +12,6 @@
     <dimen name="text_detail_size">15sp</dimen>
     <dimen name="widget_stock_symbol_text_size">15sp</dimen>
     <dimen name="widget_stock_price_size">10sp</dimen>
-    <dimen name="widget_stock_detail_default_height">180dp</dimen>
-    <dimen name="widget_stock_detail_default_width">250dp</dimen>
+    <dimen name="widget_stock_detail_default_height">300dp</dimen>
+    <dimen name="widget_stock_detail_default_width">300dp</dimen>
 </resources>
