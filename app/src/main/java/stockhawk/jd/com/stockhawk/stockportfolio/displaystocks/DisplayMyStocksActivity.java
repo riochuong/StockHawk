@@ -34,13 +34,15 @@ public class DisplayMyStocksActivity extends AppCompatActivity {
         NetworkUtilsModel networkUtilsModel = NetworkUtilsModel.getInstance(this);
         LoaderProvider loaderProvider = new LoaderProvider(this);
         LoaderManager loaderManager = getSupportLoaderManager();
+        PrefUtilsModel prefUtilsModel1 = PrefUtilsModel.getInstance(this);
 
         DisplayMyStockFragment fragment = (DisplayMyStockFragment) getSupportFragmentManager().findFragmentById(R.id
                 .main_fragment);
 
         DisplayMyStockPresenter presenter = new DisplayMyStockPresenter(fragment,stockDataRepository,loaderProvider,
                 loaderManager,
-                networkUtilsModel);
+                networkUtilsModel,
+                prefUtilsModel1);
 
     }
 

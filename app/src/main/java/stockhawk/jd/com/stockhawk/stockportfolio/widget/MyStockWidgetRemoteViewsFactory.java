@@ -2,6 +2,7 @@ package stockhawk.jd.com.stockhawk.stockportfolio.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Binder;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
@@ -26,6 +27,10 @@ public class MyStockWidgetRemoteViewsFactory implements RemoteViewsService.Remot
     MyStockWidgetContract.Presenter mPresenter;
     List<StockModel> stocks;
     Context mContext;
+
+    private static final String CHANGE_FORMAT = "$%.2f(%.2f%%)";
+
+    private static final String PRICE_FORMAT = "$%.2f";
 
     public MyStockWidgetRemoteViewsFactory(Context mContext) {
         this.mPresenter = null;
@@ -68,8 +73,12 @@ public class MyStockWidgetRemoteViewsFactory implements RemoteViewsService.Remot
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.stock_widget_list_item_layout);
         StockModel stock = stocks.get(position);
         views.setTextViewText(R.id.widget_stock_symbol, stock.getSymbol());
-        views.setTextViewText(R.id.widget_stock_price, stock.getPrice());
-        views.setTextViewText(R.id.change, stock.getAbsoluteChange());
+        views.setTextColor(R.id.widget_stock_symbol, Color.WHITE);
+        views.setTextViewText(R.id.widget_stock_price, String.format(PRICE_FORMAT,Float.parseFloat(stock.getPrice())));
+        views.setTextColor(R.id.widget_stock_price, Color.WHITE);
+        views.setTextViewText(R.id.widget_stock_change, String.format(CHANGE_FORMAT,Float.parseFloat(stock
+                        .getAbsoluteChange()), Float.parseFloat(stock.getPercentageChange())));
+        views.setTextColor(R.id.widget_stock_change, getStockChangeColor(stock.getAbsoluteChange()));
         // set filling intent
         final Intent fillingIntent = new Intent();
         fillingIntent.putExtra(STOCK_SYMBOL, stock.getSymbol());
@@ -95,6 +104,18 @@ public class MyStockWidgetRemoteViewsFactory implements RemoteViewsService.Remot
         return -1;
     }
 
+    /**
+     * determine if we should make stock color red/green
+     * @param stockChange
+     * @return
+     */
+    private int  getStockChangeColor (String stockChange){
+        float change = Float.parseFloat(stockChange);
+        if (change >= 0){return Color.GREEN;}
+
+        return Color.RED;
+    }
+
     @Override
     public boolean hasStableIds() {
         return true;
@@ -109,4 +130,5 @@ public class MyStockWidgetRemoteViewsFactory implements RemoteViewsService.Remot
     public void updateStockData(List<StockModel> mstocks) {
         stocks  = mstocks;
     }
+
 }

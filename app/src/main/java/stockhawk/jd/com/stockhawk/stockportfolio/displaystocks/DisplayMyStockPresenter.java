@@ -15,6 +15,7 @@ import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockFilter;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockFilterType;
 import stockhawk.jd.com.stockhawk.util.NetworkUtilsModel;
+import stockhawk.jd.com.stockhawk.util.PrefUtilsModel;
 import timber.log.Timber;
 
 /**
@@ -28,6 +29,7 @@ public class DisplayMyStockPresenter implements DisplayMyStockContract.Presenter
     private LoaderProvider mLoaderProvider;
     private LoaderManager mLoaderManager;
     private NetworkUtilsModel mNetworkUtilsModel;
+    private PrefUtilsModel mPrefUtilsModel;
 
     private static final int LOADER_ID = 541;
 
@@ -36,13 +38,15 @@ public class DisplayMyStockPresenter implements DisplayMyStockContract.Presenter
                                    StockDataRepository mRepository,
                                    LoaderProvider mLoaderProvider,
                                    LoaderManager mLoaderManager,
-                                   NetworkUtilsModel mNetworkUtils
+                                   NetworkUtilsModel mNetworkUtils,
+                                   PrefUtilsModel prefUtilsModel
                                    ) {
         this.mView = mView;
         this.mRepository = mRepository;
         this.mLoaderProvider = mLoaderProvider;
         this.mLoaderManager = mLoaderManager;
         this.mNetworkUtilsModel = mNetworkUtils;
+        this.mPrefUtilsModel = prefUtilsModel;
         mView.setPresenter(this);
 
     }
@@ -101,7 +105,7 @@ public class DisplayMyStockPresenter implements DisplayMyStockContract.Presenter
             @Override
             public void onStocksDeleted() {
                 Timber.d("Stock is removed completely from DB");
-
+                mPrefUtilsModel.sendDataUpdateBroadcast();
             }
 
             @Override

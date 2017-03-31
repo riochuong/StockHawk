@@ -1,6 +1,7 @@
 package stockhawk.jd.com.stockhawk.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -18,6 +19,8 @@ public class PrefUtilsModel {
     private Context mContext;
 
     private static PrefUtilsModel INSTANCE;
+
+    public static final String ACTION_DATA_UPDATED = "com.udacity.stockhawk.ACTION_DATA_UPDATED";
 
     private  PrefUtilsModel(Context ctx) {
         this.mContext = ctx;
@@ -74,6 +77,10 @@ public class PrefUtilsModel {
 
     public void removeStock( String symbol) {
         editStockPref(symbol, false);
+    }
+
+    public void sendDataUpdateBroadcast(){
+        mContext.sendBroadcast(new Intent(ACTION_DATA_UPDATED));
     }
 
     public  String getDisplayMode() {

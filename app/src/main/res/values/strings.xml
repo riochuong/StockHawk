@@ -44,5 +44,6 @@
     <string name="one_year_low_title_text">52 Week Low</string>
     <string name="one_year_change_title_text">One Year Change</string>
     <string name="prev_close_title_text">Previous Close</string>
+    <string name="widget_title_text">STOCKHAWK</string>
 
 </resources>

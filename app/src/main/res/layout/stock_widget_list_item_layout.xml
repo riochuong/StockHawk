@@ -11,15 +11,18 @@
     <TextView
         android:id="@+id/widget_stock_symbol"
         android:fontFamily="sans-serif"
+        android:layout_margin="@dimen/widget_layout_margin"
         android:textSize="@dimen/widget_stock_symbol_text_size"
+        android:textStyle="bold|italic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="vertical"
+        android:layout_margin="@dimen/widget_layout_margin"
         android:gravity="right"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/widget_stock_price"
             android:fontFamily="sans-serif"
@@ -30,8 +33,8 @@
         <TextView
             android:id="@+id/widget_stock_change"
             android:fontFamily="sans-serif"
-            android:textSize="@dimen/widget_stock_price_size"
-            android:layout_width="0dp"
+            android:textSize="@dimen/widget_stock_change_size"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 

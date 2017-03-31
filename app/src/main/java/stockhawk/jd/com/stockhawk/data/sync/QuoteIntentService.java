@@ -48,7 +48,7 @@ public class QuoteIntentService extends IntentService {
             @Override
             public void onStocksInserted() {
                 Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
-                QuoteIntentService.this.sendBroadcast(dataUpdatedIntent);
+                PrefUtilsModel.getInstance(QuoteIntentService.this).sendDataUpdateBroadcast();
             }
 
             @Override

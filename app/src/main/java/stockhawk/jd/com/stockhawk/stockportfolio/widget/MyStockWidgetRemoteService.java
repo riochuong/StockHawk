@@ -15,6 +15,8 @@ import stockhawk.jd.com.stockhawk.util.PrefUtilsModel;
 public class MyStockWidgetRemoteService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
+
+        // initialize presenters with required factories
         MyStockWidgetRemoteViewsFactory viewFactory = new MyStockWidgetRemoteViewsFactory(this);
         StockLocalDataSource stockLocalDataSource = StockLocalDataSource.getInstance(this.getContentResolver());
         StockRemoteDataSource remoteDataSource = StockRemoteDataSource.getInstance(this);

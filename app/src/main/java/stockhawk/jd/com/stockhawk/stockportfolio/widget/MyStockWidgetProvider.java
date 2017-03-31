@@ -11,6 +11,7 @@ import android.widget.RemoteViews;
 
 import stockhawk.jd.com.stockhawk.R;
 import stockhawk.jd.com.stockhawk.data.sync.QuoteIntentService;
+import stockhawk.jd.com.stockhawk.stockportfolio.displaystocks.DisplayMyStocksActivity;
 import stockhawk.jd.com.stockhawk.stockportfolio.stockdetail.StockDetailsActivity;
 
 /**
@@ -25,11 +26,16 @@ public class MyStockWidgetProvider extends AppWidgetProvider  {
 
             // set up the collection to launch the detail view
             Intent clickIntentTemplate = new Intent(context, StockDetailsActivity.class);
+            Intent launchMainActivityTemplate = new Intent(context, DisplayMyStocksActivity.class);
+            PendingIntent launchMainActivityIntentTemplate = PendingIntent.getActivity(context,0,
+                    launchMainActivityTemplate,PendingIntent.FLAG_UPDATE_CURRENT);
             PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(context)
                     .addNextIntentWithParentStack(clickIntentTemplate)
                     .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
             views.setPendingIntentTemplate(R.id.widget_stock_list_view,clickPendingIntentTemplate);
             views.setRemoteAdapter(R.id.widget_stock_list_view, new Intent(context,MyStockWidgetRemoteService.class));
+            views.setOnClickPendingIntent(R.id.widget_title, launchMainActivityIntentTemplate);
+
             // tell appwidgetmanager to perform update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId,views);
         }

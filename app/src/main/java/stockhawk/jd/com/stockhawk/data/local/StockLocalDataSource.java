@@ -11,6 +11,7 @@ import java.util.List;
 
 import stockhawk.jd.com.stockhawk.data.StockDataSource;
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
+import stockhawk.jd.com.stockhawk.util.PrefUtilsModel;
 import timber.log.Timber;
 
 /**
@@ -62,7 +63,7 @@ public class StockLocalDataSource implements StockDataSource {
                         cvas);
 
         /* insert stocks and callback */
-        if (inserted <= 0) {
+        if (inserted < 0) {
             callBacks.onInsertError();
         } else {
             callBacks.onStocksInserted();

@@ -1,5 +1,7 @@
 package stockhawk.jd.com.stockhawk.stockportfolio.widget;
 
+import android.graphics.Color;
+
 import java.util.List;
 
 import stockhawk.jd.com.stockhawk.BasePresenter;

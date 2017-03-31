@@ -2,6 +2,7 @@ package stockhawk.jd.com.stockhawk.stockportfolio.widget;
 
 import android.util.Log;
 
+import java.util.Collections;
 import java.util.List;
 
 import stockhawk.jd.com.stockhawk.data.StockDataRepository;
@@ -38,6 +39,7 @@ public class MyStockWidgetPresenter implements MyStockWidgetContract.Presenter{
             stockDataRepository.getPortfolioStocks(new StockDataSource.OnGetPortfolioStockCallbacks() {
                 @Override
                 public void onStocksReceived(List<StockModel> stocks) {
+                    Collections.sort(stocks);
                     view.updateStockData(stocks);
                 }
 
