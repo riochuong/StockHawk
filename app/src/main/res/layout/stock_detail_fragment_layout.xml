@@ -20,6 +20,7 @@
             android:fontFamily="sans-serif"
             android:textSize="@dimen/stock_symbol_text_size"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_height="wrap_content"/>
 
@@ -28,6 +29,7 @@
             android:layout_width="wrap_content"
             android:textSize="@dimen/stock_name_text_size"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:layout_height="wrap_content"/>
@@ -48,6 +50,7 @@
             android:textStyle="bold"
             android:textSize="@dimen/stock_price_text_size"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_height="wrap_content"/>
 
@@ -57,6 +60,7 @@
             android:layout_width="wrap_content"
             android:textSize="@dimen/stock_change_text_size"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_height="wrap_content"/>
 
@@ -66,6 +70,7 @@
             android:textSize="@dimen/stock_volume_text_size"
             android:layout_width="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:layout_height="wrap_content"/>
@@ -93,6 +98,7 @@
     <TextView
         app:layout_columnSpan="2"
         android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
         android:textStyle="bold|italic"
         android:textSize="@dimen/text_detail_size"
         app:layout_columnWeight="1"

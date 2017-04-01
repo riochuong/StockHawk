@@ -14,6 +14,7 @@
         android:textSize="@dimen/history_stock_font_size"
         android:text="@string/prev_close_title_text"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_height="wrap_content"/>
 
@@ -24,6 +25,7 @@
         app:layout_columnWeight="1"
         android:textSize="@dimen/history_stock_font_size"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_height="wrap_content"/>
 
@@ -38,6 +40,7 @@
         android:text="@string/one_year_high_title_text"
         android:textSize="@dimen/history_stock_font_size"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_height="wrap_content"/>
 
@@ -48,6 +51,7 @@
         app:layout_columnWeight="1"
         android:textSize="@dimen/history_stock_font_size"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_height="wrap_content"/>
 
@@ -61,6 +65,7 @@
         android:text="@string/one_year_low_title_text"
         android:textSize="@dimen/history_stock_font_size"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_height="wrap_content"/>
 
@@ -71,6 +76,7 @@
         app:layout_columnWeight="1"
         android:textSize="@dimen/history_stock_font_size"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_height="wrap_content"/>
 
@@ -84,6 +90,7 @@
         android:text="@string/one_year_change_title_text"
         android:textSize="@dimen/history_stock_font_size"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_height="wrap_content"/>
 
@@ -94,6 +101,7 @@
         app:layout_columnWeight="1"
         android:textSize="@dimen/history_stock_font_size"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_height="wrap_content"/>
 
