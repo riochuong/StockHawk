@@ -84,9 +84,9 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
     /*animation time for the plot*/
     private static final int ANIMATION_DURATION = 1000 ;
 
-    private static final String FLOAT_DISP_FORMAT = "%.2f";
+    private static final String FLOAT_DISP_FORMAT = "$%.2f";
 
-    private static final String STOCK_CHANGE_FORMAT = "$%s(%s%%)"; // absolute change and percentage change
+    private static final String STOCK_CHANGE_FORMAT = "$ %s ( %s%% )"; // absolute change and percentage change
 
     @Nullable
     @Override
@@ -153,6 +153,10 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
         }
         // add the limit line to the plot
         setStockLimitLine(histModel.get52Wkhigh(),histModel.get52WkLow());
+        stockLineChart.getXAxis().setValueFormatter(new XTimeStampFormat());
+        stockLineChart.getXAxis().setDrawLabels(true);
+        stockLineChart.getXAxis().setTextColor(Color.WHITE);
+
         // set animation
         stockLineChart.animateXY(ANIMATION_DURATION, ANIMATION_DURATION);
 
@@ -198,7 +202,7 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
         ll1.setTextSize(10f);
         ll1.setTextColor(getTextColor());
 
-        stockLineChart.getXAxis().setDrawLabels(false);
+
 
         // set lower bound
         LimitLine ll2 = new LimitLine(minPrice,minPrice+"");
@@ -270,7 +274,7 @@ public class StockDetailsFragment extends Fragment implements  StockDetailsContr
     public void setStockCommonData(StockModel stock) {
         stockName.setText("("+stock.getName()+")");
         stockSymbol.setText(stock.getSymbol());
-        stockPrice.setText(stock.getPrice());
+        stockPrice.setText(String.format(FLOAT_DISP_FORMAT, Float.parseFloat(stock.getPrice())));
         stockChanges.setText(String.format(STOCK_CHANGE_FORMAT,stock.getAbsoluteChange(),stock.getPercentageChange()));
         stockVolume.setText(stock.getVolume());
     }

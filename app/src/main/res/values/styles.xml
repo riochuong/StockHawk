@@ -4,6 +4,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:toolbarStyle">@style/Toolbar</item>
+    </style>
+
+    <style name="Toolbar" parent="AppTheme">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:popupTheme">@style/Theme.AppCompat.Light</item>
     </style>
 
     <style name="PercentChangeTextStyle">

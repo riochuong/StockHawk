@@ -15,5 +15,6 @@ public class AddStockDiaglogContract {
 
     interface  Presenter extends BasePresenter{
         void addStock(String symbol);
+        boolean checkStock(String symbol);
     }
 }

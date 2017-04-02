@@ -67,6 +67,7 @@ public class QuoteIntentService extends IntentService {
         Calendar from = Calendar.getInstance();
         Calendar to = Calendar.getInstance();
         from.add(Calendar.YEAR, -YEARS_OF_HISTORY);
+        ArrayList<StockModel> quoteStocks = new ArrayList<>();
 
         try {
 
@@ -86,7 +87,7 @@ public class QuoteIntentService extends IntentService {
 
             Timber.d(quotes.toString());
 
-            ArrayList<StockModel> quoteStocks = new ArrayList<>();
+
 
             while (iterator.hasNext()) {
                 String symbol = iterator.next();
@@ -108,7 +109,8 @@ public class QuoteIntentService extends IntentService {
                 float price = quote.getPrice().floatValue();
                 float change = quote.getChange().floatValue();
                 float percentChange = quote.getChangeInPercent().floatValue();
-                long volumeAvg = quote.getAvgVolume();
+                // just in case investment index does not have this values
+                long volumeAvg = (quote.getAvgVolume() != null) ? quote.getAvgVolume() : -1;
                 String name = stock.getName();
 
                 // WARNING! Don't request historical data for a stock that doesn't exist!
@@ -142,7 +144,8 @@ public class QuoteIntentService extends IntentService {
 
         } catch (IOException exception) {
             Timber.e(exception, "Error fetching stock quotes");
+        }finally {
+            return quoteStocks;
         }
-        return null;
     }
 }

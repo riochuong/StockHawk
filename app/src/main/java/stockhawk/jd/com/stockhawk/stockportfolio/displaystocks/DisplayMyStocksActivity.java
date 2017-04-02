@@ -3,9 +3,11 @@ package stockhawk.jd.com.stockhawk.stockportfolio.displaystocks;
 import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import stockhawk.jd.com.stockhawk.R;
 import stockhawk.jd.com.stockhawk.data.LoaderProvider;
@@ -19,6 +21,7 @@ public class DisplayMyStocksActivity extends AppCompatActivity {
 
     /* status of the view */
     private boolean mTwoPane = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,8 @@ public class DisplayMyStocksActivity extends AppCompatActivity {
                 loaderManager,
                 networkUtilsModel,
                 prefUtilsModel1);
+
+
 
     }
 

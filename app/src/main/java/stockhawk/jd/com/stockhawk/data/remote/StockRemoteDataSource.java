@@ -118,4 +118,9 @@ public class StockRemoteDataSource implements StockDataSource {
     public void getPortfolioStocks(OnGetPortfolioStockCallbacks callbacks) {
         // NO-OP
     }
+
+    @Override
+    public boolean isStockAvailable(String symbol) {
+        return false;
+    }
 }

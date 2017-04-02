@@ -124,5 +124,13 @@ public class StockLocalDataSource implements StockDataSource {
 
     }
 
+    @Override
+    public boolean isStockAvailable(String symbol) {
+
+        Uri uri = StockContract.Quote.makeUriForStock(symbol);
+        Cursor cursor = mContentResolver.query(uri, null,null,null,null);
+        return (cursor.getCount() > 0);
+    }
+
 
 }

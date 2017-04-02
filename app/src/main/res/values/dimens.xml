@@ -18,4 +18,14 @@
     <dimen name="widget_layout_margin">5dp</dimen>
     <dimen name="widget_stock_change_size">10sp</dimen>
     <dimen name="widget_title_size">20sp</dimen>
+    <dimen name="card_view_margin">1dp</dimen>
+    <dimen name="indices_card_view_margin">16dp</dimen>
+    <dimen name="indices_btw_margin">5dp</dimen>
+    <dimen name="indices_layout_margin_total">16dp</dimen>
+    <dimen name="index_text_size">20sp</dimen>
+    <dimen name="card_corner_radius">5dp</dimen>
+    <dimen name="text_title_size">18sp</dimen>
+    <dimen name="portfolio_bottom_margin">1dp</dimen>
+    <dimen name="app_bar_elelvation">4dp</dimen>
+    <dimen name="chart_margin">10dp</dimen>
 </resources>

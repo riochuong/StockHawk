@@ -14,7 +14,9 @@ public class DisplayMyStockContract {
 
 
     interface View extends BaseView<Presenter> {
+        // update regular stokcs
         void updateStockDataDisplay(List<StockModel> stock);
+        void updateInvestmentIndices(List<StockModel> stock);
         void displayFailToRefreshDuetoNetworkError();
     }
 

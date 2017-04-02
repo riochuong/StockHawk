@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".stockportfolio.stockdetail.StockDetailsActivity"/>
+        <activity android:name=".stockportfolio.stockdetail.StockDetailsActivity"
+            android:screenOrientation="portrait"/>
 
         <service android:name=".data.sync.QuoteIntentService"
                  android:exported="false"/>

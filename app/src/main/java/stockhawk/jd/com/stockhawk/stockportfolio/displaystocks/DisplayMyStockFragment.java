@@ -1,14 +1,20 @@
 package stockhawk.jd.com.stockhawk.stockportfolio.displaystocks;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,8 +22,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,6 +36,8 @@ import stockhawk.jd.com.stockhawk.stockportfolio.addstocksdialog.AddStockDiaglog
 import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
 import stockhawk.jd.com.stockhawk.stockportfolio.stockdetail.StockDetailsActivity;
 import stockhawk.jd.com.stockhawk.util.PrefUtilsModel;
+
+import static stockhawk.jd.com.stockhawk.util.PrefUtilsModel.ACTION_DATA_UPDATED;
 
 /**
  * This fragment will hold the layout for display stock
@@ -49,11 +60,37 @@ public class DisplayMyStockFragment extends Fragment implements DisplayMyStockCo
     @BindView(R.id.fab)
      FloatingActionButton addStockFab;
 
+    @BindView(R.id.nasdaq_stock_price)
+    TextView nasdaqStockPrice;
+
+    @BindView(R.id.s_n_p_stock_price)
+    TextView snptockPrice;
+
+    @BindView(R.id.nasdaq_change)
+    TextView nasdaqChange;
+
+    @BindView(R.id.s_n_p_change)
+    TextView snpChange;
+
+    @BindView(R.id.card_nasdaq)
+    CardView nasdaqCardView;
+
+    @BindView(R.id.card_s_n_p)
+    CardView snpCardView;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.index_layout)
+    LinearLayout mIndexLayout;
 
 
     private DisplayMyStockContract.Presenter mPresenter;
     private StockAdapter mAdapter;
     private static final String STOCK_SYMBOL_KEY = "stock_symbol";
+
+    private static final String STOCK_CHANGE_FORMAT = "$%.2f(%.2f%%)";
+    private static final String STOCK_PRICE_FORMAT = "$%.2f";
 
     public DisplayMyStockFragment() {
         // Required empty public constructor
@@ -108,6 +145,9 @@ public class DisplayMyStockFragment extends Fragment implements DisplayMyStockCo
             }
         }).attachToRecyclerView(mRecyclerView);
 
+        // initialize appbar
+        ((DisplayMyStocksActivity)getActivity()).setSupportActionBar(toolbar);
+        ((DisplayMyStocksActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         return view;
     }
@@ -155,8 +195,65 @@ public class DisplayMyStockFragment extends Fragment implements DisplayMyStockCo
 
     @Override
     public void updateStockDataDisplay(List<StockModel> stocks) {
-        mSwipeRefreshLayout.setRefreshing(false);
+
+        if (stocks != null && stocks.size() > 0){
+            mErrorTextView.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            List<StockModel> indices = new ArrayList<>();
+            mSwipeRefreshLayout.setRefreshing(false);
+
+        }
         mAdapter.setStockList(stocks);
+
+    }
+
+    @Override
+    public void updateInvestmentIndices(List<StockModel> stocks) {
+        String NASDAQ_TITLE = getString(R.string.default_stocks_nasdaq);
+        String S_N_P_TITLE = getString(R.string.default_stocks_s_n_p);
+
+        for (StockModel model : stocks){
+            if (model.getSymbol().equalsIgnoreCase(NASDAQ_TITLE)){
+
+                nasdaqStockPrice.setText(
+                        String.format(STOCK_PRICE_FORMAT, Float.parseFloat(model.getPrice()))
+                );
+
+                nasdaqChange.setText(
+                        String.format(STOCK_CHANGE_FORMAT,
+                                    Float.parseFloat(model.getAbsoluteChange()),
+                                    Float.parseFloat(model.getPercentageChange())
+                ));
+
+                // change color logic
+                if (Float.parseFloat(model.getAbsoluteChange()) <= 0){
+                    nasdaqCardView.setCardBackgroundColor(getContext().getResources().getColor(R.color.material_red_700));
+                } else{
+                    nasdaqCardView.setCardBackgroundColor(getContext().getResources().getColor(R.color
+                            .material_green_700));
+                }
+            }
+            if (model.getSymbol().equalsIgnoreCase(S_N_P_TITLE)){
+                snptockPrice.setText(
+                        String.format(STOCK_PRICE_FORMAT, Float.parseFloat(model.getPrice()))
+                );
+
+                snpChange.setText(
+                        String.format(STOCK_CHANGE_FORMAT,
+                                Float.parseFloat(model.getAbsoluteChange()),
+                                Float.parseFloat(model.getPercentageChange())
+                        ));
+
+                // change color logic
+                if (Float.parseFloat(model.getAbsoluteChange()) <= 0){
+                    snpCardView.setCardBackgroundColor(getContext().getResources().getColor(R.color.material_red_700));
+                } else{
+                    snpCardView.setCardBackgroundColor(getContext().getResources().getColor(R.color
+                            .material_green_700));
+                }
+            }
+
+        }
 
     }
 
@@ -168,8 +265,18 @@ public class DisplayMyStockFragment extends Fragment implements DisplayMyStockCo
              2/ Display error message
          */
         mSwipeRefreshLayout.setRefreshing(false);
-        mErrorTextView.setVisibility(View.VISIBLE);
-        mErrorTextView.setText(getString(R.string.error_no_network));
+
+        if (mAdapter.getItemCount() <=0){
+            mRecyclerView.setVisibility(View.INVISIBLE);
+            mErrorTextView.setVisibility(View.VISIBLE);
+            mErrorTextView.setText(getString(R.string.error_no_network));
+        }
+        else{
+            mErrorTextView.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            Toast.makeText(getContext(),getString(R.string.network_error_message),Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
@@ -196,5 +303,8 @@ public class DisplayMyStockFragment extends Fragment implements DisplayMyStockCo
     @Override
     public void onClick(View v) {
         new AddStockDiaglogFragment().show(getFragmentManager(),"StockDialogFragment");
+
     }
+
+
 }

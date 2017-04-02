@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <!--NASDAQ, S&P, AND DOWN_JONES-->
+
+<LinearLayout
+    android:id="@+id/index_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_margin="@dimen/indices_layout_margin_total"
+    android:background="@android:color/transparent"
+    android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_nasdaq"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/indices_btw_margin"
+            android:layout_marginEnd="@dimen/indices_btw_margin"
+            card_view:cardCornerRadius="@dimen/card_corner_radius"
+            android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:text="@string/nasdaq_title"
+                android:layout_width="wrap_content"
+                android:textStyle="bold|italic"
+                android:textSize="@dimen/index_text_size"
+                android:layout_marginLeft="@dimen/indices_btw_margin"
+                android:layout_marginStart="@dimen/indices_btw_margin"
+                android:layout_marginTop="@dimen/indices_btw_margin"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/nasdaq_stock_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/indices_btw_margin"
+                android:layout_marginTop="@dimen/indices_btw_margin"
+                android:layout_marginStart="@dimen/indices_btw_margin"/>
+
+            <TextView
+                android:id="@+id/nasdaq_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/indices_btw_margin"
+                android:layout_marginBottom="@dimen/indices_btw_margin"
+                android:layout_marginTop="@dimen/indices_btw_margin"
+                android:layout_marginStart="@dimen/indices_btw_margin"/>
+        </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_s_n_p"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/indices_btw_margin"
+            card_view:cardCornerRadius="@dimen/card_corner_radius"
+            android:layout_marginEnd="@dimen/indices_btw_margin"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <TextView
+                android:text="@string/s_n_p_title"
+                android:textSize="@dimen/index_text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold|italic"
+                android:layout_marginTop="@dimen/indices_btw_margin"
+                android:layout_marginLeft="@dimen/indices_btw_margin"
+                android:layout_marginStart="@dimen/indices_btw_margin"/>
+
+            <TextView
+                android:id="@+id/s_n_p_stock_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/indices_btw_margin"
+                android:layout_marginTop="@dimen/indices_btw_margin"
+                android:layout_marginStart="@dimen/indices_btw_margin"/>
+
+            <TextView
+                android:id="@+id/s_n_p_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/indices_btw_margin"
+                android:layout_marginBottom="@dimen/indices_btw_margin"
+                android:layout_marginLeft="@dimen/indices_btw_margin"
+                android:layout_marginStart="@dimen/indices_btw_margin"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>

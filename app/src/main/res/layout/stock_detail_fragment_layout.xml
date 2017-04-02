@@ -88,6 +88,7 @@
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart"
+        android:layout_margin="@dimen/chart_margin"
         app:layout_columnSpan="2"
         app:layout_rowSpan="2"
         app:layout_columnWeight="1"

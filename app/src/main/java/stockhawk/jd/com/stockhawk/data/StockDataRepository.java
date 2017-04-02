@@ -94,6 +94,11 @@ public class StockDataRepository implements  StockDataSource {
         });
     }
 
+    @Override
+    public boolean isStockAvailable(String symbol) {
+        return mStockLocalDataSource.isStockAvailable(symbol);
+    }
+
     public static StockDataRepository getInstance(StockDataSource localDataSource,
                                                   StockRemoteDataSource remoteDataSource,
                                                   PrefUtilsModel prefUtils){

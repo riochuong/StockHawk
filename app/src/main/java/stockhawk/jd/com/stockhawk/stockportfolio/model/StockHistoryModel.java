@@ -1,7 +1,9 @@
 package stockhawk.jd.com.stockhawk.stockportfolio.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Locale;
 
 /**
  * Created by chuondao on 3/18/17.
@@ -57,4 +59,7 @@ public class StockHistoryModel {
     public ArrayList<PriceDataPoint> getData() {
         return data;
     }
+
+
+
 }

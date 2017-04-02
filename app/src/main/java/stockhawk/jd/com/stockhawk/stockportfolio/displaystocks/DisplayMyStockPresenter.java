@@ -6,6 +6,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import stockhawk.jd.com.stockhawk.data.LoaderProvider;
@@ -33,6 +34,14 @@ public class DisplayMyStockPresenter implements DisplayMyStockContract.Presenter
 
     private static final int LOADER_ID = 541;
 
+    private static  HashMap<String, Integer>INDICES = new HashMap<>();
+
+    static{
+
+        // initialize the map of investment indices
+        INDICES.put("^GSPC",1); // s&p
+        INDICES.put("^IXIC",2); // nasdaq
+    }
 
     public DisplayMyStockPresenter(DisplayMyStockContract.View mView,
                                    StockDataRepository mRepository,
@@ -73,15 +82,24 @@ public class DisplayMyStockPresenter implements DisplayMyStockContract.Presenter
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
             List<StockModel> stockList = new ArrayList<>();
+            List<StockModel> indicesList = new ArrayList<>();
+
             if (data != null){
                 /*convert to list*/
                 for (int i = 0; i < data.getCount() ; i++) {
                     if (data.moveToPosition(i)){
-                        stockList.add(StockModel.from(data));
+                        StockModel model = StockModel.from(data);
+                        if (INDICES.get(model.getSymbol()) != null){
+                            indicesList.add(model);
+                        }
+                        else{
+                            stockList.add(model);
+                        }
                     }
                 }
                 // use view contract method to update stock data
                 mView.updateStockDataDisplay(stockList);
+                mView.updateInvestmentIndices(indicesList);
             }
     }
 

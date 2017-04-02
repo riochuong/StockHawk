@@ -9,6 +9,10 @@ public class PriceDataPoint {
     private long mTimeStamp;
     private float mStockPrice;
 
+
+
+    private String mDateFormat;
+
     public PriceDataPoint(long mTimeStamp, float mStockPrice) {
         this.mTimeStamp = mTimeStamp;
         this.mStockPrice = mStockPrice;
@@ -20,6 +24,15 @@ public class PriceDataPoint {
 
     public float getStockPrice() {
         return mStockPrice;
+    }
+
+
+    public String getDateFormat() {
+        return mDateFormat;
+    }
+
+    public void setDateFormat(String mDateFormat) {
+        this.mDateFormat = mDateFormat;
     }
 
 

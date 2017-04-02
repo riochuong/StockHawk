@@ -31,8 +31,14 @@ public class AddStockDialogPresenter implements AddStockDiaglogContract.Presente
         /*insert to shared preference for now and wait for network */
         mRepository.insertSingleStock(symbol);
         /* close dialog */
-        mView.dismissViewAfterAdd();
+        //mView.dismissViewAfterAdd();
     }
+
+    @Override
+    public boolean checkStock(String symbol) {
+        return mRepository.isStockAvailable(symbol);
+    }
+
 
     @Override
     public void start() {

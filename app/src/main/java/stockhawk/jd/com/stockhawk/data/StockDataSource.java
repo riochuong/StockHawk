@@ -54,4 +54,6 @@ public interface StockDataSource {
     /* retreived stocks */
     void getPortfolioStocks(OnGetPortfolioStockCallbacks callbacks);
 
+    boolean isStockAvailable(String symbol);
+
 }

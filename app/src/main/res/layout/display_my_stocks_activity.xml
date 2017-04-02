@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,12 +8,14 @@
     tools:context="stockhawk.jd.com.stockhawk.stockportfolio.displaystocks.DisplayMyStocksActivity">
 
 
+
     <fragment
         android:id="@+id/main_fragment"
         android:layout_width="match_parent"
         class="stockhawk.jd.com.stockhawk.stockportfolio.displaystocks.DisplayMyStockFragment"
         tools:context=".stockportfolio.displaystocks.DisplayMyStocksActivity"
+        android:layout_below="@id/appbar"
         android:layout_height="match_parent"/>
 
 
-</FrameLayout>
+</RelativeLayout>

@@ -3,19 +3,17 @@
 
     <string name="pref_stocks_initialized_key" translatable="false">initialized</string>
 
-    <string name="pref_stocks_key">stocks</string>
+    <string name="pref_stocks_key" translatable="false">stocks</string>
 
 
-    <string name="pref_display_mode_key">displayMode</string>
-    <string name="pref_display_mode_default">@string/pref_display_mode_percentage_key</string>
+    <string name="pref_display_mode_key" translatable="false">displayMode</string>
+    <string name="pref_display_mode_default" translatable="false">@string/pref_display_mode_percentage_key</string>
 
     <string name="pref_display_mode_absolute_key">absolute</string>
     <string name="pref_display_mode_percentage_key">percentage</string>
 
-    <string name="default_stocks_yahoo">YHOO</string>
-    <string name="default_stocks_apple">AAPL</string>
-    <string name="default_stocks_microsoft">MSFT</string>
-    <string name="default_stocks_facebook">FB</string>
+    <string name="default_stocks_s_n_p" translatable="false">^GSPC</string>
+    <string name="default_stocks_nasdaq" translatable="false">^IXIC</string>
 
 
     <string name="action_change_units">@string/pref_display_mode_key</string>
@@ -31,19 +29,24 @@
 
     <string name="toast_stock_added_no_connectivity">Symbol %s added. Will refresh when network available.</string>
     <string name="toast_no_connectivity">Will refresh when network available.</string>
-    <string name="title_activity_stock_main">StockMainActivity</string>
+    <string name="title_activity_stock_main" translatable="false">StockMainActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="chart_title">Chart</string>
     <string name="details_title">Details</string>
     <string name="highest_price">Highest Price</string>
-    <string name="type_face_font">OpenSans-Regular.ttf</string>
+    <string name="type_face_font" translatable="false">OpenSans-Regular.ttf</string>
     <string name="lowest_price">Lowest Price</string>
     <string name="one_year_high_title_text">52 Week High</string>
     <string name="one_year_low_title_text">52 Week Low</string>
     <string name="one_year_change_title_text">One Year Change</string>
     <string name="prev_close_title_text">Previous Close</string>
     <string name="widget_title_text">STOCKHAWK</string>
+    <string name="s_n_p_title" translatable="false"><![CDATA[S&P]]> 500</string>
+    <string name="nasdaq_title" translatable="false">Nasdaq</string>
+    <string name="error_happens">Error: Failed to load data</string>
+    <string name="failed_to_get_stock">Failed to get stock : %s</string>
+    <string name="success_fully_add_stock">Successfully add Stock: %s</string>
+    <string name="network_error_message">No Network Connection. Load Local Stored Data Only</string>
+    <string name="add_stock_button_desc">Add Stock</string>
 
 </resources>
