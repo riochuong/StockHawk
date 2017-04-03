@@ -8,6 +8,9 @@ import stockhawk.jd.com.stockhawk.BaseView;
  */
 
 public class AddStockDiaglogContract {
+
+    private AddStockDiaglogContract() {}
+
     interface View extends BaseView<Presenter>{
         void dismissViewAfterAdd();
         void displayFailToAddStockDueToNetworkError(String symbol);

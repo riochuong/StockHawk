@@ -12,6 +12,7 @@ import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
 
 public class DisplayMyStockContract {
 
+    private DisplayMyStockContract() {}
 
     interface View extends BaseView<Presenter> {
         // update regular stokcs

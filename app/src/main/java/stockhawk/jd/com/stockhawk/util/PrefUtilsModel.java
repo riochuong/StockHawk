@@ -14,7 +14,7 @@ import java.util.Set;
 
 import stockhawk.jd.com.stockhawk.R;
 
-public class PrefUtilsModel {
+public final class PrefUtilsModel {
 
     private Context mContext;
 

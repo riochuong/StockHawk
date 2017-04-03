@@ -12,6 +12,8 @@ import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
 
 public class StockDetailsContract {
 
+    private StockDetailsContract(){}
+
     interface View extends BaseView<Presenter>{
         void setDataForChart(StockHistoryModel histModel);
 

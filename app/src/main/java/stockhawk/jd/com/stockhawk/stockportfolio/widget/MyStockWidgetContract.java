@@ -14,6 +14,8 @@ import stockhawk.jd.com.stockhawk.stockportfolio.model.StockModel;
 
 public class MyStockWidgetContract {
 
+    private MyStockWidgetContract(){}
+
     interface View extends BaseView <Presenter>{
         void updateStockData(List<StockModel> stocks);
     }

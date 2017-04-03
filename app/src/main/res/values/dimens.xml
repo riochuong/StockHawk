@@ -28,4 +28,5 @@
     <dimen name="portfolio_bottom_margin">1dp</dimen>
     <dimen name="app_bar_elelvation">4dp</dimen>
     <dimen name="chart_margin">10dp</dimen>
+    <dimen name="alert_dialog_margin">4dp</dimen>
 </resources>
